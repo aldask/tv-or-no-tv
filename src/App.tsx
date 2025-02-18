@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TVShowsList from "./Components/TVShowsList";
 import "./App.css";
 
