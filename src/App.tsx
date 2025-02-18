@@ -1,12 +1,15 @@
-import "./App.css";
+import React, { useState } from "react";
 import TVShowsList from "./Components/TVShowsList";
+import "./App.css";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
-      <TVShowsList />
-    </>
+    <div className="bg-gray-900 text-white min-h-screen">
+      <main className="container mx-auto px-4 py-6">
+        <TVShowsList />
+      </main>
+    </div>
   );
-}
+};
 
 export default App;

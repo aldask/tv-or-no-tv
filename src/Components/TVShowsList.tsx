@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import he from "he";
+import ShowCard from "./ShowCard";
 
 interface TVShow {
   id: number;
@@ -17,11 +17,15 @@ const TVShowsList = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    setLoading(true);
+    setError("");
+
     axios
       .get("https://api.tvmaze.com/shows")
       .then((response) => {
         setTvShows(response.data);
         setLoading(false);
+        setError("");
       })
       .catch((error) => {
         setError(error.message);
@@ -41,33 +45,11 @@ const TVShowsList = () => {
 
   return (
     <>
-      <div>
-        <h1 className="text-3xl">TV Shows</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {tvShows.map((show) => (
-            <div
-              key={show.id}
-              className="bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl"
-            >
-              <img
-                src={show.image.medium}
-                alt={show.name}
-                className="w-full h-48 object-cover rounded-md"
-              />
-              <h3 className="text-xl mt-2">{show.name}</h3>
-              <p
-                className="text-gray-500 text-sm"
-                dangerouslySetInnerHTML={{
-                  __html: he.decode(show.summary),
-                }}
-              />
-              <p className="text-sm mt-2">
-                Rating: {show.rating.average || "N/A"}
-              </p>
-              <p className="text-sm mt-1">Genres: {show.genres.join(", ")}</p>
-            </div>
-          ))}
-        </div>
+      {error && <p className="text-red-500 text-center">{error}</p>}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6 place-items-center">
+        {tvShows.map((show) => (
+          <ShowCard key={show.id} show={show}  />
+        ))}
       </div>
     </>
   );
