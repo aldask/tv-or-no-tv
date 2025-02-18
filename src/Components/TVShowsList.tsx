@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import he from "he";
 
 interface TVShow {
   id: number;
@@ -54,7 +55,12 @@ const TVShowsList = () => {
                 className="w-full h-48 object-cover rounded-md"
               />
               <h3 className="text-xl mt-2">{show.name}</h3>
-              <p className="text-gray-500 text-sm">{show.summary}</p>
+              <p
+                className="text-gray-500 text-sm"
+                dangerouslySetInnerHTML={{
+                  __html: he.decode(show.summary),
+                }}
+              />
               <p className="text-sm mt-2">
                 Rating: {show.rating.average || "N/A"}
               </p>
