@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ShowCard from "./ShowCard";
+import { useTheme } from "../Contexts/ThemeContext";
 
 interface TVShow {
   id: number;
@@ -15,6 +16,7 @@ const TVShowsList = () => {
   const [tvShows, setTvShows] = useState<TVShow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { darkMode } = useTheme();
 
   useEffect(() => {
     setLoading(true);
@@ -46,9 +48,9 @@ const TVShowsList = () => {
   return (
     <>
       {error && <p className="text-red-500 text-center">{error}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6 place-items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 place-items-center">
         {tvShows.map((show) => (
-          <ShowCard key={show.id} show={show}  />
+          <ShowCard key={show.id} show={show} darkMode={darkMode} />
         ))}
       </div>
     </>
