@@ -79,10 +79,16 @@ const TVShowsList = () => {
           <button
             key={number}
             onClick={() => handlePageChange(number)}
-            className={`mx-1 px-3 py-1 rounded-full ${
+            disabled={currentPage === number}
+            className={`mx-1 px-4 py-2 rounded-lg font-medium transition-all
+            ${
               currentPage === number
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-800"
+                ? darkMode
+                  ? "bg-green-400 text-black cursor-not-allowed"
+                  : "bg-green-600 text-white cursor-not-allowed"
+                : darkMode
+                ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
             {number}
