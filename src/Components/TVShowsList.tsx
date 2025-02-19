@@ -75,22 +75,25 @@ const TVShowsList = () => {
           <ShowCard key={show.id} show={show} darkMode={darkMode} />
         ))}
       </div>
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-10 flex-wrap gap-1 sm:gap-2">
         {pageNumbers.map((number) => (
           <button
             key={number}
             onClick={() => handlePageChange(number)}
             disabled={currentPage === number}
-            className={`mx-1 px-4 py-2 rounded-lg font-medium transition-all
-            ${
-              currentPage === number
-                ? darkMode
-                  ? "bg-green-400 text-black cursor-not-allowed"
-                  : "bg-green-600 text-white cursor-not-allowed"
-                : darkMode
-                ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+            className={`
+              px-3 py-1 rounded-lg font-medium text-xs sm:text-sm
+              sm:px-4 sm:py-2 transition-all
+              ${
+                currentPage === number
+                  ? darkMode
+                    ? "bg-green-400 text-black cursor-not-allowed"
+                    : "bg-green-600 text-white cursor-not-allowed"
+                  : darkMode
+                  ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }
+            `}
           >
             {number}
           </button>
