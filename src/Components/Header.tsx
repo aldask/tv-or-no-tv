@@ -12,11 +12,7 @@ const Header: React.FC<HeaderProps> = () => {
   const { darkMode, toggleTheme } = useTheme();
 
   return (
-    <header
-      className={`${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-      }`}
-    >
+    <header>
       <div className="flex flex-row justify-between items-center py-4 px-8 container mx-auto">
         <div className="flex flex-row items-center space-x-4">
           <img className="h-24 w-auto" alt="tv-or-no-tv_logo" src={logoUrl} />
