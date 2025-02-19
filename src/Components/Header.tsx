@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = () => {
           >
             <div
               className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-all ${
-                darkMode ? "translate-x-7" : "translate-x-0"
+                darkMode ? "translate-x-[26px]" : "translate-x-[-2px]"
               } flex items-center justify-center`}
             >
               {darkMode ? (
