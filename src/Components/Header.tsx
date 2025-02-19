@@ -1,6 +1,7 @@
 import React from "react";
 import logoUrl from "../assets/logo.png";
 import { useTheme } from "../Contexts/ThemeContext.tsx";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 interface HeaderProps {
   toggleTheme: () => void;
@@ -19,16 +20,24 @@ const Header: React.FC<HeaderProps> = () => {
       <div className="flex flex-row justify-between items-center py-4 px-8 container mx-auto">
         <div className="flex flex-row items-center space-x-4">
           <img className="h-24 w-auto" alt="tv-or-no-tv_logo" src={logoUrl} />
-          <button
+          <div
             onClick={toggleTheme}
-            className={`${
-              darkMode
-                ? "text-white hover:text-gray-200"
-                : "text-gray-800 hover:text-gray-500"
-            } transition`}
+            className={`w-14 h-7 flex items-center rounded-full p-1 cursor-pointer transition ${
+              darkMode ? "bg-gray-800" : "bg-yellow-300"
+            }`}
           >
-            toggle theme
-          </button>
+            <div
+              className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-all ${
+                darkMode ? "translate-x-7" : "translate-x-0"
+              } flex items-center justify-center`}
+            >
+              {darkMode ? (
+                <FaMoon className="text-gray-800" />
+              ) : (
+                <FaSun className="text-yellow-400" />
+              )}
+            </div>
+          </div>
         </div>
         <div className="flex flex-row items-center space-x-6">
           <button
