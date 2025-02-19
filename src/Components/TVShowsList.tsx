@@ -53,18 +53,19 @@ const TVShowsList = () => {
   const totalPages = Math.ceil(tvShows.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) {
-      return;
-    }
+    if (page < 1 || page > totalPages) return;
+
     setCurrentPage(page);
+
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 0);
   };
 
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
-
-  // NEED TO UPDATE STYLING, RIGHT NOW JUST FOR A QUICK DEMO
 
   return (
     <>
