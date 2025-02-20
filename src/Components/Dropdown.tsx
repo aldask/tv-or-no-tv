@@ -1,5 +1,5 @@
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useState } from "react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 interface DropdownProps {
   title: string;
@@ -29,12 +29,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   //   };
 
   return (
-    <div className="relative w-64">
+    <div className="relative w-full sm:w-56">
       <button
         onClick={handleDropdown}
         className={`${
           darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-        } px-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full flex justify-between items-center`}
+        } px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full flex justify-between items-center`}
       >
         {title}
         {isOpen ? (
@@ -50,7 +50,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
           }`}
         >
-          <div className="p-4 space-y-2">
+          <div className="p-2 space-y-2">
             {options.map((option) => (
               <label
                 key={option}
