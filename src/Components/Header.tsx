@@ -3,6 +3,8 @@ import logoUrl from "../assets/logo.png";
 import { useTheme } from "../Contexts/ThemeContext.tsx";
 import { FaBars, FaMoon, FaSun, FaTimes } from "react-icons/fa";
 import { useLocation } from "react-router";
+import Dropdown from "./Dropdown.tsx";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   toggleTheme: () => void;
@@ -40,29 +42,96 @@ const Header: React.FC<HeaderProps> = () => {
             </div>
           </div>
         </div>
-
-        {isHomePage && (
+        <div className="flex flex-col md:flex-row items-center space-x-6 mt-4 md:mt-0">
+          <input
+            type="text"
+            placeholder="Search"
+            className={`${
+              darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+            } px-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 transition w-full md:w-80`}
+          />
+          <Dropdown
+            title="Genres filter"
+            options={[
+              "Action",
+              "Crime",
+              "Science-Fiction",
+              "Drama",
+              "Thriller",
+              "Espionage",
+              "Music",
+              "Romance",
+            ]}
+            selectedValue=""
+            onSelect={(value) => console.log(value)}
+            darkMode={darkMode}
+            isMultiple={true}
+          />
+          {/* <select
+            className={`${
+              darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+            } px-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 transition`}
+          >
+            <option value=""></option>
+            <option value="action">Action</option>
+            <option value="crime">Crime</option>
+            <option value="science-fiction">Science-Fiction</option>
+            <option value="drama">Drama</option>
+            <option value="thriller">Thriller</option>
+            <option value="espionage">Espionage</option>
+            <option value="music">Music</option>
+            <option value="romance">romance</option>
+            test</select> */}
+          {/* <select>
+              <option value="">Status filter</option>
+              <option value="">Status filter</option>
+              <option value="">Status filter</option>
+              <option value="">Status filter</option>
+            </select> */}
+        </div>
+        <div className="hidden lg:flex space-x-6">
+          <Link to="/">
+            <button
+              className={`${
+                darkMode
+                  ? "bg-gray-800 text-white hover:bg-gray-700"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              } px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none shadow-lg border-2 border-transparent hover:border-gray-400`}
+            >
+              Home
+            </button>
+          </Link>
+          <button
+            className={`${
+              darkMode
+                ? "bg-gray-800 text-white hover:bg-gray-700"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            } px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none shadow-lg border-2 border-transparent hover:border-gray-400`}
+          >
+            Favourites
+          </button>
+        </div>
+      </div>
+      {/* {isHomePage && (
           <div
             className="lg:hidden cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
               <FaTimes
-                className={`text-3xl transition-all ${
+                className={`text-3xl transition ${
                   darkMode ? "text-white" : "dark_text"
                 }`}
               />
             ) : (
               <FaBars
-                className={`text-3xl transition-all ${
+                className={`text-3xl transition ${
                   darkMode ? "text-white" : "dark_text"
                 }`}
               />
             )}
-            <div></div>
           </div>
-        )}
-      </div>
+        )} */}
     </header>
   );
 };
