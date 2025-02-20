@@ -5,6 +5,7 @@ import { FaBars, FaMoon, FaSun, FaTimes } from "react-icons/fa";
 import { useLocation } from "react-router";
 import Dropdown from "./Dropdown.tsx";
 import { Link } from "react-router-dom";
+import Searchbar from "./Searchbar.tsx";
 
 interface HeaderProps {
   toggleTheme: () => void;
@@ -13,10 +14,15 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { darkMode, toggleTheme } = useTheme();
   const currentLocation = useLocation();
 
   const isHomePage = currentLocation.pathname === "/";
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
   return (
     <header>
@@ -43,13 +49,7 @@ const Header: React.FC<HeaderProps> = () => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center space-x-6 mt-4 md:mt-0">
-          <input
-            type="text"
-            placeholder="Search"
-            className={`${
-              darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-            } px-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 transition w-full md:w-80`}
-          />
+          <Searchbar darkMode={darkMode} onSearch={handleSearch} />
           <Dropdown
             title="Genres filter"
             options={[
