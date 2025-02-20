@@ -14,7 +14,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ darkMode, onSearch }) => {
   };
 
   return (
-    <div className="relative w-full sm:w-64">
+    <div className="relative w-full sm:w-54">
       <input
         type="text"
         placeholder="Look for shows"

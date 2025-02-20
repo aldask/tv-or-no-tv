@@ -73,7 +73,21 @@ const Header: React.FC<HeaderProps> = () => {
             </button>
           </div>
         </div>
-        <div className="hidden lg:flex flex-row lg:justify-center xl:justify-start space-x-4 w-full">
+        <div className="hidden lg:flex flex-row lg:justify-center xl:justify-start align-center space-x-4 w-full">
+          <div className="relative w-full sm:w-54">
+            <select
+              className={`${
+                darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
+              } px-4 py-[0.55rem] rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full transition-all`}
+            >
+              <option value="none">No sort</option>
+              <option value="name-asc">Name ascending</option>
+              <option value="name-desc">Name descending</option>
+              <option value="premiered-asc">Premiered ascending</option>
+              <option value="premiered-desc">Premiered descending</option>
+            </select>
+          </div>
+
           <Searchbar darkMode={darkMode} onSearch={handleSearch} />
           <Dropdown
             title="Genres"
