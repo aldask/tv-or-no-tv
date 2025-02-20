@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import logoUrl from "../assets/logo.png";
 import { useTheme } from "../Contexts/ThemeContext.tsx";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaBars, FaMoon, FaSun, FaTimes } from "react-icons/fa";
+import { useLocation } from "react-router";
 
 interface HeaderProps {
   toggleTheme: () => void;
@@ -9,7 +10,11 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { darkMode, toggleTheme } = useTheme();
+  const currentLocation = useLocation();
+
+  const isHomePage = currentLocation.pathname === "/";
 
   return (
     <header>
@@ -35,26 +40,28 @@ const Header: React.FC<HeaderProps> = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row items-center space-x-6">
-          <button
-            className={`${
-              darkMode
-                ? "text-white hover:bg-gray-700"
-                : "text-gray-800 hover:bg-gray-200"
-            } px-4 py-2 rounded-lg transition`}
+
+        {isHomePage && (
+          <div
+            className="lg:hidden cursor-pointer"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            Home
-          </button>
-          <button
-            className={`${
-              darkMode
-                ? "text-white hover:bg-gray-700"
-                : "text-gray-800 hover:bg-gray-200"
-            } px-4 py-2 rounded-lg transition`}
-          >
-            Favourites
-          </button>
-        </div>
+            {isMenuOpen ? (
+              <FaTimes
+                className={`text-3xl transition-all ${
+                  darkMode ? "text-white" : "dark_text"
+                }`}
+              />
+            ) : (
+              <FaBars
+                className={`text-3xl transition-all ${
+                  darkMode ? "text-white" : "dark_text"
+                }`}
+              />
+            )}
+            <div></div>
+          </div>
+        )}
       </div>
     </header>
   );
