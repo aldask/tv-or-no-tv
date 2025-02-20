@@ -8,7 +8,7 @@ import { useTheme } from "../Contexts/ThemeContext";
 interface Show {
   id: number;
   name: string;
-  image: { medium: string };
+  image: { medium: string; original: string };
   summary: string;
   rating: { average: number };
   genres: string[];
@@ -37,67 +37,91 @@ const ShowDetails: React.FC = () => {
         setError(error.message);
         setLoading(false);
       });
-  }, []);
+  }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!show) return <div>Show not found</div>;
+  if (loading)
+    return <div className="text-center py-10 text-gray-500">Loading...</div>;
+  if (error)
+    return <div className="text-center text-red-500 py-10">{error}</div>;
+  if (!show)
+    return (
+      <div className="text-center py-10 text-gray-500">Show not found</div>
+    );
 
   return (
     <div
-      className={`flex flex-col md:flex-row p-8 rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 w-full max-w-4xl cursor-pointer ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      className={`container mx-auto p-8 rounded-lg shadow-lg ${
+        darkMode ? "bg-gray-800" : "bg-white"
       }`}
     >
-      {show.image?.medium && (
-        <img
-          src={show.image.medium}
-          alt={show.name}
-          className="w-full md:w-64 h-96 object-cover rounded-lg"
-        />
-      )}
-
-      <div className="ml-0 md:ml-6 flex flex-col justify-between w-full mt-4 md:mt-0">
-        <div className="flex justify-between items-start">
-          <h2 className={`text-3xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
-            {show.name}
-          </h2>
-          <button>
-            <FaHeart
-              className={`text-2xl ${
-                darkMode ? "text-gray-500 hover:text-red-500" : "text-gray-700 hover:text-red-500"
-              } transition`}
-            />
-          </button>
+      <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex-shrink-0 w-full lg:w-1/3">
+          <img
+            src={show.image.original}
+            alt={show.name}
+            className="w-full h-auto rounded-lg shadow-lg"
+          />
         </div>
-
-        <p className={`text-md mt-3 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-          {he.decode(show.summary.replace(/<[^>]+>/g, ""))}
-        </p>
-
-        <div className="mt-4 text-lg space-y-2">
-          <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
-            ⭐ <strong>Rating:</strong> {show.rating.average}/10
-          </p>
-          <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
-            🎭 <strong>Genres:</strong> {show.genres.join(", ")}
-          </p>
-          <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
-            🕒 <strong>Runtime:</strong> {show.averageRuntime} min/episode
-          </p>
-          <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
-            📅 <strong>Premiered:</strong> {show.premiered} | <strong>Ended:</strong> {show.ended}
-          </p>
-          <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
-            🗣️ <strong>Language:</strong> {show.language}
-          </p>
-          {show.officialSite && (
-            <p className={`${darkMode ? "text-blue-400" : "text-blue-600"} underline`}>
-              <a href={show.officialSite} target="_blank" rel="noopener noreferrer">
-                Official Site
-              </a>
+        <div className="flex flex-col w-full lg:w-2/3 justify-between">
+          <div className="flex justify-between items-center mb-6">
+            <h1
+              className={`text-4xl font-bold ${
+                darkMode ? "text-white" : "dark_text"
+              }`}
+            >
+              {show.name}
+            </h1>
+            <button>
+              <FaHeart
+                className={`text-2xl ${
+                  darkMode
+                    ? "text-gray-500 hover:text-red-500"
+                    : "text-gray-700 hover:text-red-500"
+                } transition`}
+              />
+            </button>
+          </div>
+          <div className="mb-8">
+            <p
+              className={`text-lg mt-2 ${
+                darkMode ? "white_text" : "dark_text"
+              }`}
+            >
+              {he.decode(show.summary.replace(/<[^>]+>/g, ""))}
             </p>
-          )}
+          </div>
+          <div className="mt-4 space-y-2 text-lg flex-grow flex flex-col justify-end">
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
+              ⭐ <strong>Rating:</strong> {show.rating.average}/10
+            </p>
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
+              🎭 <strong>Genres:</strong> {show.genres.join(", ")}
+            </p>
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
+              🕒 <strong>Runtime:</strong> {show.averageRuntime} min/episode
+            </p>
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
+              📅 <strong>Premiered:</strong> {show.premiered}
+            </p>
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
+              📅 <strong>Ended:</strong> {show.ended}
+            </p>
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-700"}`}>
+              🗣️ <strong>Language:</strong> {show.language}
+            </p>
+            {show.officialSite && (
+              <div className="mt-4">
+                <a
+                  href={show.officialSite}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline cursor-pointer text-green-600 font-bold"
+                >
+                  Visit Official Site
+                </a>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

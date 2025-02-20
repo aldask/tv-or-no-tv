@@ -37,7 +37,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, darkMode, onClick }) => {
           <div className="flex justify-between items-start">
             <h3
               className={`text-2xl font-bold ${
-                darkMode ? "text-white" : "text-gray-900"
+                darkMode ? "text-white" : "dark_text"
               }`}
             >
               {show.name}
@@ -54,7 +54,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, darkMode, onClick }) => {
           </div>
           <p
             className={`text-md mt-2 line-clamp-3 ${
-              darkMode ? "text-gray-300" : "text-gray-800"
+              darkMode ? "white_text" : "dark_text"
             }`}
           >
             {he.decode(show.summary.replace(/<[^>]+>/g, ""))}
