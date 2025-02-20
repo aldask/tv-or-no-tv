@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ShowCard from "./ShowCard";
 import { useTheme } from "../Contexts/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
 interface TVShow {
   id: number;
@@ -19,6 +20,7 @@ const TVShowsList = () => {
   const { darkMode } = useTheme();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -72,7 +74,12 @@ const TVShowsList = () => {
       {error && <p className="text-red-500 text-center">{error}</p>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 place-items-center">
         {currentPageShows.map((show) => (
-          <ShowCard key={show.id} show={show} darkMode={darkMode} />
+          <ShowCard
+            key={show.id}
+            show={show}
+            darkMode={darkMode}
+            onClick={() => navigate(`/shows/${show.id}`)}
+          />
         ))}
       </div>
       <div className="flex justify-center mt-10 flex-wrap gap-1 sm:gap-2">

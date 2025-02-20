@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.dark_text {
+  color: #1f2937;
+}
+
+.white_text {
+  color: #d1d5db;
+}
