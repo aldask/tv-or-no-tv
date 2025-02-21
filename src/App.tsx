@@ -7,7 +7,7 @@ import "./App.css";
 import { useState } from "react";
 
 const App: React.FC = () => {
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -16,7 +16,7 @@ const App: React.FC = () => {
         darkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
-      <Header toggleTheme={toggleTheme} darkMode={darkMode} onSearch={setSearchQuery}/>
+      <Header onSearch={setSearchQuery}/>
       <main className="container mx-auto px-4 py-6">
         <Routes>
           <Route path="/" element={<TVShowsList searchQuery={searchQuery} />} />

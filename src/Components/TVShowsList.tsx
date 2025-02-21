@@ -18,10 +18,10 @@ interface TVShowsListProps {
 }
 
 const TVShowsList: React.FC<TVShowsListProps> = ({ searchQuery }) => {
+  const { darkMode } = useTheme();
   const [tvShows, setTvShows] = useState<TVShow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const { darkMode } = useTheme();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const navigate = useNavigate();
@@ -89,7 +89,6 @@ const TVShowsList: React.FC<TVShowsListProps> = ({ searchQuery }) => {
             <ShowCard
               key={show.id}
               show={show}
-              darkMode={darkMode}
               onClick={() => navigate(`/shows/${show.id}`)}
             />
           ))}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { useTheme } from "../Contexts/ThemeContext";
 
 interface DropdownProps {
   title: string;
@@ -16,8 +17,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   selectedValue,
   onSelect,
   isMultiple,
-  darkMode,
 }) => {
+  const { darkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDropdown = () => {

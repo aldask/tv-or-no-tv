@@ -8,12 +8,11 @@ import Searchbar from "./Searchbar.tsx";
 import Dropdown from "./Dropdown.tsx";
 
 interface HeaderProps {
-  toggleTheme: () => void;
-  darkMode: boolean;
   onSearch: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({toggleTheme, darkMode, onSearch}) => {
+const Header: React.FC<HeaderProps> = ({onSearch}) => {
+  const { toggleTheme, darkMode } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
@@ -116,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({toggleTheme, darkMode, onSearch}) => {
             darkMode={darkMode}
             isMultiple={false}
           />
-          <Searchbar darkMode={darkMode} onSearch={handleSearch} />
+          <Searchbar onSearch={handleSearch} />
         </div>
       </div>
       {/* {isHomePage && (

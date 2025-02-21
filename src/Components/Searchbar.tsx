@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useTheme } from "../Contexts/ThemeContext";
 
 interface SearchbarProps {
-  darkMode: boolean;
   onSearch: (query: string) => void;
 }
 
-const Searchbar: React.FC<SearchbarProps> = ({ darkMode, onSearch }) => {
+const Searchbar: React.FC<SearchbarProps> = ({ onSearch }) => {
+  const { darkMode } = useTheme();
   const [search, setSearch] = useState("");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
