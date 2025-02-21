@@ -8,21 +8,48 @@ import Searchbar from "./Searchbar.tsx";
 import Dropdown from "./Dropdown.tsx";
 
 interface HeaderProps {
+  onSelectedSort: (sort: string) => void;
   onSearch: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({onSearch}) => {
-  const { toggleTheme, darkMode } = useTheme();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+const Header: React.FC<HeaderProps> = ({ onSelectedSort, onSearch }) => {
   const [selectedSort, setSelectedSort] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { toggleTheme, darkMode } = useTheme();
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  // const [selectedSort, setSelectedSort] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const currentLocation = useLocation();
+
+  const handleSort = (sort: string) => {
+    setSelectedSort(sort);
+    onSelectedSort(sort);
+  };
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     onSearch(query);
+  };
+
+  // Handle option change for both single and multiple selections
+  // const handleGenreChange = (value: string | string[]) => {
+  //   setSelectedGenres((prevSelectedGenres) => {
+  //     if (typeof value === "string") {
+  //       if (prevSelectedGenres.includes(value)) {
+  //         return prevSelectedGenres.filter((genre) => genre !== value); // Remove genre if already selected
+  //       }
+  //       return [...prevSelectedGenres, value]; // Add genre to the selected list
+  //     }
+  //     return prevSelectedGenres;
+  //   });
+  // };
+
+  const handleStatusChange = (value: string | string[]) => {
+    if (typeof value === "string") {
+      setSelectedStatus(value); // For status, just set the selected value
+    }
   };
 
   const isHomePage = currentLocation.pathname === "/";
@@ -82,15 +109,16 @@ const Header: React.FC<HeaderProps> = ({onSearch}) => {
               className={`${
                 darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
               } px-4 py-[0.55rem] rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full transition-all`}
+              onChange={(e) => handleSort(e.target.value)}
             >
-              <option value="none">No sort</option>
-              <option value="name-asc">Name ascending</option>
-              <option value="name-desc">Name descending</option>
-              <option value="premiered-asc">Premiered ascending</option>
-              <option value="premiered-desc">Premiered descending</option>
+              <option value="">No sort</option>
+              <option value="Name ascending">Name ascending</option>
+              <option value="Name descending">Name descending</option>
+              <option value="Premiered ascending">Premiered ascending</option>
+              <option value="Premiered descending">Premiered descending</option>
             </select>
           </div>
-          <Dropdown
+          {/* <Dropdown
             title="Genres"
             options={[
               "Action",
@@ -102,17 +130,17 @@ const Header: React.FC<HeaderProps> = ({onSearch}) => {
               "Music",
               "Romance",
             ]}
-            selectedValue=""
-            onSelect={(value) => console.log(value)}
-            darkMode={darkMode}
+            selectedValue={selectedGenres}
+            onSelect={handleGenreChange}
             isMultiple={true}
-          />
+          /> */}
+
+          {/* Status Dropdown */}
           <Dropdown
             title="Status"
             options={["All", "Ended", "Running", "To Be Determined"]}
-            selectedValue=""
-            onSelect={(value) => console.log(value)}
-            darkMode={darkMode}
+            selectedValue={selectedStatus}
+            onSelect={handleStatusChange}
             isMultiple={false}
           />
           <Searchbar onSearch={handleSearch} />

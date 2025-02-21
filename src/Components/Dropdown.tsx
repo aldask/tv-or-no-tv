@@ -7,8 +7,7 @@ interface DropdownProps {
   options: string[];
   selectedValue: string | string[];
   onSelect: (value: string | string[]) => void;
-  isMultiple?: boolean;
-  darkMode: boolean;
+  isMultiple: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -25,9 +24,21 @@ const Dropdown: React.FC<DropdownProps> = ({
     setIsOpen((prev) => !prev);
   };
 
-  //   const handleOptionChange = (value: string) => {
-
-  //   };
+  const handleOptionChange = (value: string) => {
+    if (isMultiple) {
+      let updatedSelectedValues;
+      if (Array.isArray(selectedValue)) {
+        if (selectedValue.includes(value)) {
+          updatedSelectedValues = selectedValue.filter((val) => val !== value);
+        } else {
+          updatedSelectedValues = [...selectedValue, value];
+        }
+        onSelect(updatedSelectedValues);
+      }
+    } else {
+      onSelect(value);
+    }
+  };
 
   return (
     <div className="relative w-full sm:w-38">
@@ -64,16 +75,19 @@ const Dropdown: React.FC<DropdownProps> = ({
                     type="checkbox"
                     value={option}
                     className="mr-2"
-                    // checked=
-                    // onChange={() =>
+                    checked={
+                      Array.isArray(selectedValue) &&
+                      selectedValue.includes(option)
+                    }
+                    onChange={() => handleOptionChange(option)}
                   />
                 ) : (
                   <input
                     type="radio"
                     value={option}
                     name={title}
-                    // checked=
-                    // onChange={() =>
+                    checked={selectedValue === option}
+                    onChange={() => handleOptionChange(option)}
                     className="mr-2"
                   />
                 )}

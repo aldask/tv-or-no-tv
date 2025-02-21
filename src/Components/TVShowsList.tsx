@@ -11,13 +11,18 @@ interface TVShow {
   image: { medium: string };
   rating: { average: number };
   genres: string[];
+  premiered: string;
 }
 
 interface TVShowsListProps {
+  selectedSorting: string;
   searchQuery: string;
 }
 
-const TVShowsList: React.FC<TVShowsListProps> = ({ searchQuery }) => {
+const TVShowsList: React.FC<TVShowsListProps> = ({
+  selectedSorting,
+  searchQuery,
+}) => {
   const { darkMode } = useTheme();
   const [tvShows, setTvShows] = useState<TVShow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,15 +61,32 @@ const TVShowsList: React.FC<TVShowsListProps> = ({ searchQuery }) => {
       )
     : tvShows;
 
+  // Another sorter
+  const sortedShows = filteredShows.sort((a, b) => {
+    switch (selectedSorting) {
+      case "Name ascending":
+        return a.name.localeCompare(b.name);
+      case "Name descending":
+        return b.name.localeCompare(a.name);
+      case "Premiered ascending":
+        return (
+          new Date(a.premiered).getTime() - new Date(b.premiered).getTime()
+        );
+      case "Premiered descending":
+        return (
+          new Date(b.premiered).getTime() - new Date(a.premiered).getTime()
+        );
+      default:
+        return 0;
+    }
+  });
+
   // Pagination thingies
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentPageShows = filteredShows.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentPageShows = sortedShows.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredShows.length / itemsPerPage);
+  const totalPages = Math.ceil(sortedShows.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
