@@ -31,22 +31,22 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
         <img
           src={show.image.medium}
           alt={show.name}
-          className="w-52 h-72 object-cover rounded-lg"
+          className="w-32 sm:w-52 lg:w-64 h-auto object-cover rounded-lg" // Adjusted image size based on screen size
         />
       )}
       <div className="ml-6 flex flex-col justify-between w-full">
         <div>
           <div className="flex justify-between items-start">
             <h3
-              className={`text-2xl font-bold ${
+              className={`text-lg sm:text-xl md:text-2xl font-bold ${
                 darkMode ? "text-white" : "text-gray-800"
-              }`}
+              }`} // Smaller title on mobile
             >
               {show.name}
             </h3>
             <button>
               <FaHeart
-                className={`text-2xl ${
+                className={`text-xl ${
                   darkMode
                     ? "text-gray-500 hover:text-green-400"
                     : "text-gray-700 hover:text-green-500"
@@ -55,14 +55,14 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
             </button>
           </div>
           <p
-            className={`text-md mt-2 line-clamp-3 ${
+            className={`text-sm sm:text-base md:text-md mt-2 line-clamp-3 ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}
           >
             {he.decode(show.summary.replace(/<[^>]+>/g, ""))}
           </p>
         </div>
-        <div className="mt-4 text-sm">
+        <div className="mt-4 text-sm sm:text-base md:text-lg">
           <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
             ⭐ <strong>Rating:</strong> {show.rating.average}/10
           </p>

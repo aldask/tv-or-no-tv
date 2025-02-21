@@ -27,7 +27,7 @@ const App: React.FC = () => {
         onStatusFilter={setStatusFilter}
         onSearch={setSearchQuery}
       />
-      <main className="container mx-auto px-10 py-4">
+      <main className="container mx-auto px-6 py-4">
         <Routes>
           <Route
             path="/"
@@ -43,6 +43,9 @@ const App: React.FC = () => {
           <Route path="/shows/:id" element={<ShowDetails />} />
         </Routes>
       </main>
+      <footer className="flex justify-center text-center p-4 text-xs text-green-500">
+        &#169; by Aldas For Reiz Tech {new Date().getFullYear()}
+      </footer>
     </div>
   );
 };
