@@ -9,6 +9,7 @@ import { useState } from "react";
 const App: React.FC = () => {
   const { darkMode } = useTheme();
   const [selectedSort, setSelectedSort] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -17,13 +18,18 @@ const App: React.FC = () => {
         darkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
-      <Header onSelectedSort={setSelectedSort} onSearch={setSearchQuery} />
+      <Header
+        onSelectedSort={setSelectedSort}
+        onStatusFilter={setStatusFilter}
+        onSearch={setSearchQuery}
+      />
       <main className="container mx-auto px-4 py-6">
         <Routes>
           <Route
             path="/"
             element={
               <TVShowsList
+                statusFilter={statusFilter}
                 selectedSorting={selectedSort}
                 searchQuery={searchQuery}
               />

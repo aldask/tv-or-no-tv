@@ -9,18 +9,22 @@ import Dropdown from "./Dropdown.tsx";
 
 interface HeaderProps {
   onSelectedSort: (sort: string) => void;
+  onStatusFilter: (sort: string) => void;
   onSearch: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSelectedSort, onSearch }) => {
+const Header: React.FC<HeaderProps> = ({
+  onSelectedSort,
+  onStatusFilter,
+  onSearch,
+}) => {
   const [selectedSort, setSelectedSort] = useState("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [statusFilter, setStatusFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   const { toggleTheme, darkMode } = useTheme();
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  // const [selectedSort, setSelectedSort] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const currentLocation = useLocation();
 
   const handleSort = (sort: string) => {
@@ -28,28 +32,28 @@ const Header: React.FC<HeaderProps> = ({ onSelectedSort, onSearch }) => {
     onSelectedSort(sort);
   };
 
+  const handleStatus = (value: string | string[]) => {
+    if (typeof value === "string") {
+      setStatusFilter(value);
+      onStatusFilter(value);
+    }
+  };
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     onSearch(query);
   };
 
-  // Handle option change for both single and multiple selections
-  // const handleGenreChange = (value: string | string[]) => {
-  //   setSelectedGenres((prevSelectedGenres) => {
-  //     if (typeof value === "string") {
-  //       if (prevSelectedGenres.includes(value)) {
-  //         return prevSelectedGenres.filter((genre) => genre !== value); // Remove genre if already selected
-  //       }
-  //       return [...prevSelectedGenres, value]; // Add genre to the selected list
-  //     }
-  //     return prevSelectedGenres;
-  //   });
-  // };
-
-  const handleStatusChange = (value: string | string[]) => {
-    if (typeof value === "string") {
-      setSelectedStatus(value); // For status, just set the selected value
-    }
+  const handleGenreChange = (value: string | string[]) => {
+    setSelectedGenres((prevSelectedGenres) => {
+      if (typeof value === "string") {
+        if (prevSelectedGenres.includes(value)) {
+          return prevSelectedGenres.filter((genre) => genre !== value);
+        }
+        return [...prevSelectedGenres, value];
+      }
+      return prevSelectedGenres;
+    });
   };
 
   const isHomePage = currentLocation.pathname === "/";
@@ -118,7 +122,7 @@ const Header: React.FC<HeaderProps> = ({ onSelectedSort, onSearch }) => {
               <option value="Premiered descending">Premiered descending</option>
             </select>
           </div>
-          {/* <Dropdown
+          <Dropdown
             title="Genres"
             options={[
               "Action",
@@ -133,39 +137,37 @@ const Header: React.FC<HeaderProps> = ({ onSelectedSort, onSearch }) => {
             selectedValue={selectedGenres}
             onSelect={handleGenreChange}
             isMultiple={true}
-          /> */}
-
-          {/* Status Dropdown */}
+          />
           <Dropdown
             title="Status"
             options={["All", "Ended", "Running", "To Be Determined"]}
-            selectedValue={selectedStatus}
-            onSelect={handleStatusChange}
+            selectedValue={statusFilter}
+            onSelect={handleStatus}
             isMultiple={false}
           />
           <Searchbar onSearch={handleSearch} />
         </div>
       </div>
-      {/* {isHomePage && (
-          <div
-            className="lg:hidden cursor-pointer"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <FaTimes
-                className={`text-3xl transition ${
-                  darkMode ? "text-white" : "dark_text"
-                }`}
-              />
-            ) : (
-              <FaBars
-                className={`text-3xl transition ${
-                  darkMode ? "text-white" : "dark_text"
-                }`}
-              />
-            )}
-          </div>
-        )} */}
+      {isHomePage && (
+        <div
+          className="lg:hidden cursor-pointer"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? (
+            <FaTimes
+              className={`text-3xl transition ${
+                darkMode ? "text-white" : "dark_text"
+              }`}
+            />
+          ) : (
+            <FaBars
+              className={`text-3xl transition ${
+                darkMode ? "text-white" : "dark_text"
+              }`}
+            />
+          )}
+        </div>
+      )}
     </header>
   );
 };

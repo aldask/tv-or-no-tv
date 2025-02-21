@@ -12,15 +12,18 @@ interface TVShow {
   rating: { average: number };
   genres: string[];
   premiered: string;
+  status: string;
 }
 
 interface TVShowsListProps {
   selectedSorting: string;
+  statusFilter: string;
   searchQuery: string;
 }
 
 const TVShowsList: React.FC<TVShowsListProps> = ({
   selectedSorting,
+  statusFilter,
   searchQuery,
 }) => {
   const { darkMode } = useTheme();
@@ -55,13 +58,21 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
     return <div>Error: {error}</div>; // This one also need to be improved
   }
 
-  const filteredShows = searchQuery
-    ? tvShows.filter((show) =>
-        show.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : tvShows;
+  // Filter shows based on search query
+  const filteredShows = tvShows.filter((show) => {
+    const matchesSearch = searchQuery
+      ? show.name.toLowerCase().includes(searchQuery.toLowerCase())
+      : true;
 
-  // Another sorter
+    const matchesStatus =
+      statusFilter && statusFilter !== "All"
+        ? show.status === statusFilter
+        : true;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  // Sort the filtered shows
   const sortedShows = filteredShows.sort((a, b) => {
     switch (selectedSorting) {
       case "Name ascending":
@@ -77,7 +88,7 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
           new Date(b.premiered).getTime() - new Date(a.premiered).getTime()
         );
       default:
-        return 0;
+        return a.id - b.id;
     }
   });
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useTheme } from "../Contexts/ThemeContext";
 
@@ -19,6 +19,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const { darkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -40,8 +41,27 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
-    <div className="relative w-full sm:w-38">
+    <div ref={dropdownRef} className="relative w-full sm:w-38">
       <button
         onClick={handleDropdown}
         className={`${
