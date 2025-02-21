@@ -13,7 +13,11 @@ interface TVShow {
   genres: string[];
 }
 
-const TVShowsList = () => {
+interface TVShowsListProps {
+  searchQuery: string;
+}
+
+const TVShowsList: React.FC<TVShowsListProps> = ({ searchQuery }) => {
   const [tvShows, setTvShows] = useState<TVShow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,7 +35,6 @@ const TVShowsList = () => {
       .then((response) => {
         setTvShows(response.data);
         setLoading(false);
-        setError("");
       })
       .catch((error) => {
         setError(error.message);
@@ -47,18 +50,26 @@ const TVShowsList = () => {
     return <div>Error: {error}</div>; // This one also need to be improved
   }
 
+  const filteredShows = searchQuery
+    ? tvShows.filter((show) =>
+        show.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : tvShows;
+
   // Pagination thingies
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentPageShows = tvShows.slice(indexOfFirstItem, indexOfLastItem);
+  const currentPageShows = filteredShows.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
-  const totalPages = Math.ceil(tvShows.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredShows.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
 
     setCurrentPage(page);
-
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 0);
@@ -72,26 +83,31 @@ const TVShowsList = () => {
   return (
     <>
       {error && <p className="text-red-500 text-center">{error}</p>}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 place-items-center">
-        {currentPageShows.map((show) => (
-          <ShowCard
-            key={show.id}
-            show={show}
-            darkMode={darkMode}
-            onClick={() => navigate(`/shows/${show.id}`)}
-          />
-        ))}
-      </div>
-      <div className="flex justify-center mt-10 flex-wrap gap-1 sm:gap-2">
-        {pageNumbers.map((number) => (
-          <button
-            key={number}
-            onClick={() => handlePageChange(number)}
-            disabled={currentPage === number}
-            className={`
-              px-3 py-1 rounded-lg font-medium text-xs sm:text-sm
-              sm:px-4 sm:py-2 transition-all
-              ${
+      {currentPageShows.length > 0 ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 place-items-center">
+          {currentPageShows.map((show) => (
+            <ShowCard
+              key={show.id}
+              show={show}
+              darkMode={darkMode}
+              onClick={() => navigate(`/shows/${show.id}`)}
+            />
+          ))}
+        </div>
+      ) : searchQuery ? (
+        <div className="text-center text-gray-500 mt-10">
+          <h2 className="text-2xl font-semibold">No shows found</h2>
+          <p className="text-lg">Try searching for something else.</p>
+        </div>
+      ) : null}
+      {filteredShows.length > itemsPerPage && (
+        <div className="flex justify-center mt-10 flex-wrap gap-1 sm:gap-2">
+          {pageNumbers.map((number) => (
+            <button
+              key={number}
+              onClick={() => handlePageChange(number)}
+              disabled={currentPage === number}
+              className={`px-3 py-1 rounded-lg font-medium text-xs sm:text-sm transition-all ${
                 currentPage === number
                   ? darkMode
                     ? "bg-green-400 text-black cursor-not-allowed"
@@ -99,13 +115,13 @@ const TVShowsList = () => {
                   : darkMode
                   ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }
-            `}
-          >
-            {number}
-          </button>
-        ))}
-      </div>
+              }`}
+            >
+              {number}
+            </button>
+          ))}
+        </div>
+      )}
     </>
   );
 };

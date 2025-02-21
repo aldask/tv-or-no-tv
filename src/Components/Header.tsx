@@ -10,16 +10,20 @@ import Dropdown from "./Dropdown.tsx";
 interface HeaderProps {
   toggleTheme: () => void;
   darkMode: boolean;
+  onSearch: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC<HeaderProps> = ({toggleTheme, darkMode, onSearch}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { darkMode, toggleTheme } = useTheme();
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedSort, setSelectedSort] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const currentLocation = useLocation();
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    onSearch(query);
   };
 
   const isHomePage = currentLocation.pathname === "/";
@@ -87,8 +91,6 @@ const Header: React.FC<HeaderProps> = () => {
               <option value="premiered-desc">Premiered descending</option>
             </select>
           </div>
-
-          <Searchbar darkMode={darkMode} onSearch={handleSearch} />
           <Dropdown
             title="Genres"
             options={[
@@ -114,6 +116,7 @@ const Header: React.FC<HeaderProps> = () => {
             darkMode={darkMode}
             isMultiple={false}
           />
+          <Searchbar darkMode={darkMode} onSearch={handleSearch} />
         </div>
       </div>
       {/* {isHomePage && (

@@ -29,7 +29,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   //   };
 
   return (
-    <div className="relative w-full sm:w-54">
+    <div className="relative w-full sm:w-38">
       <button
         onClick={handleDropdown}
         className={`${
