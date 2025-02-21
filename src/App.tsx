@@ -4,9 +4,14 @@ import Header from "./Components/Header";
 import ShowDetails from "./Components/ShowDetails";
 import { useTheme } from "./Contexts/ThemeContext";
 import "./App.css";
+import { useState } from "react";
 
 const App: React.FC = () => {
-  const { darkMode, toggleTheme } = useTheme();
+  const { darkMode } = useTheme();
+  const [selectedSort, setSelectedSort] = useState("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <div
@@ -14,10 +19,25 @@ const App: React.FC = () => {
         darkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
-      <Header toggleTheme={toggleTheme} darkMode={darkMode} />
-      <main className="container mx-auto px-4 py-6">
+      <Header
+        onSelectedSort={setSelectedSort}
+        onSelectedGenres={setSelectedGenres}
+        onStatusFilter={setStatusFilter}
+        onSearch={setSearchQuery}
+      />
+      <main className="container mx-auto px-10 py-4">
         <Routes>
-          <Route path="/" element={<TVShowsList />} />
+          <Route
+            path="/"
+            element={
+              <TVShowsList
+                statusFilter={statusFilter}
+                selectedGenres={selectedGenres}
+                selectedSorting={selectedSort}
+                searchQuery={searchQuery}
+              />
+            }
+          />
           <Route path="/shows/:id" element={<ShowDetails />} />
         </Routes>
       </main>

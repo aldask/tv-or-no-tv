@@ -1,6 +1,7 @@
 import React from "react";
 import he from "he";
 import { FaHeart } from "react-icons/fa";
+import { useTheme } from "../Contexts/ThemeContext";
 
 interface Show {
   id: number;
@@ -13,11 +14,12 @@ interface Show {
 
 interface ShowCardProps {
   show: Show;
-  darkMode: boolean;
   onClick: () => void;
 }
 
-const ShowCard: React.FC<ShowCardProps> = ({ show, darkMode, onClick }) => {
+const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
+  const { darkMode } = useTheme();
+  
   return (
     <div
       onClick={onClick}
