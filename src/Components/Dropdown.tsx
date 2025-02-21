@@ -65,7 +65,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [isOpen]);
 
   return (
-    <div ref={dropdownRef} className="relative w-full sm:w-38">
+    <div ref={dropdownRef} className="relative w-full lg:w-38">
       <button
         onClick={handleDropdown}
         className={`${

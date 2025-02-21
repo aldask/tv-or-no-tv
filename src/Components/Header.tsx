@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import logoUrl from "../assets/logo.png";
 import { useTheme } from "../Contexts/ThemeContext.tsx";
-import { FaBars, FaMoon, FaSun, FaTimes } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import Searchbar from "./Searchbar.tsx";
 import Dropdown from "./Dropdown.tsx";
+import MobileMenu from "./MobileHeader.tsx";
+import SortDropdown from "./SortDropdown.tsx";
 
 interface HeaderProps {
   onSelectedSort: (sort: string) => void;
   onSelectedGenres: (sort: string[]) => void;
-  onStatusFilter: (sort: string) => void;
+  onStatusFilter: (status: string | string[]) => void;
   onSearch: (query: string) => void;
 }
 
@@ -20,25 +22,33 @@ const Header: React.FC<HeaderProps> = ({
   onStatusFilter,
   onSearch,
 }) => {
-  const [, setSelectedSort] = useState("");
+  const [, setSortingFilterValue] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [statusFilter, setStatusFilter] = useState<string | string[]>("All");
   const [, setSearchQuery] = useState("");
 
   const { toggleTheme, darkMode } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const currentLocation = useLocation();
 
-  const handleSort = (sort: string) => {
-    setSelectedSort(sort);
-    onSelectedSort(sort);
+  // Handler for sorting
+  const handleSortingFilter = (value: string) => {
+    setSortingFilterValue(value);
+    onSelectedSort(value);
   };
 
-  const handleStatus = (value: string | string[]) => {
-    if (typeof value === "string") {
-      setStatusFilter(value);
-      onStatusFilter(value);
+  // Handler for genres
+  const handleGenreFilter = (value: string | string[]) => {
+    if (Array.isArray(value)) {
+      setSelectedGenres(value);
+      onSelectedGenres(value);
     }
+  };
+
+  // Handler for status filter
+  const handleStatusFilter = (value: string | string[]) => {
+    setStatusFilter(value);
+    onStatusFilter(value);
   };
 
   const handleSearch = (query: string) => {
@@ -46,11 +56,8 @@ const Header: React.FC<HeaderProps> = ({
     onSearch(query);
   };
 
-  const handleGenre = (value: string | string[]) => {
-    if (Array.isArray(value)) {
-      setSelectedGenres(value);
-      onSelectedGenres(value);
-    }
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   const isHomePage = currentLocation.pathname === "/";
@@ -80,9 +87,19 @@ const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
           </div>
-
-          <div className="hidden lg:flex space-x-6">
-            <Link to="/">
+          <div>
+            <div className="hidden lg:flex space-x-6">
+              <Link to="/">
+                <button
+                  className={`${
+                    darkMode
+                      ? "bg-gray-800 text-white hover:bg-gray-700"
+                      : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                  } px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none shadow-lg border-2 border-transparent hover:border-gray-400`}
+                >
+                  Home
+                </button>
+              </Link>
               <button
                 className={`${
                   darkMode
@@ -90,81 +107,51 @@ const Header: React.FC<HeaderProps> = ({
                     : "bg-gray-200 text-gray-800 hover:bg-gray-300"
                 } px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none shadow-lg border-2 border-transparent hover:border-gray-400`}
               >
-                Home
+                Favourites
               </button>
-            </Link>
-            <button
-              className={`${
-                darkMode
-                  ? "bg-gray-800 text-white hover:bg-gray-700"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-              } px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none shadow-lg border-2 border-transparent hover:border-gray-400`}
-            >
-              Favourites
-            </button>
+            </div>
+            <MobileMenu
+              isMenuOpen={isMenuOpen}
+              toggleMenu={toggleMenu}
+              onSearch={handleSearch}
+              onSelectedSort={onSelectedSort}
+              selectedGenres={selectedGenres}
+              selectedStatus={statusFilter}
+              onSelectedGenres={handleGenreFilter}
+              onSelectedStatus={handleStatusFilter}
+            />
           </div>
         </div>
-        <div className="hidden lg:flex flex-row lg:justify-center xl:justify-start align-center space-x-4 w-full">
-          <div className="relative w-full sm:w-54">
-            <select
-              className={`${
-                darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-              } px-4 py-[0.55rem] rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full transition-all`}
-              onChange={(e) => handleSort(e.target.value)}
-            >
-              <option value="">No sort</option>
-              <option value="Name ascending">Name ascending</option>
-              <option value="Name descending">Name descending</option>
-              <option value="Premiered ascending">Premiered ascending</option>
-              <option value="Premiered descending">Premiered descending</option>
-            </select>
+        {isHomePage && (
+          <div className="hidden lg:flex flex-row lg:justify-center xl:justify-start align-center space-x-4 w-full">
+            <SortDropdown onSort={handleSortingFilter} />
+            <Dropdown
+              title="Genres"
+              options={[
+                "Action",
+                "Crime",
+                "Science-Fiction",
+                "Drama",
+                "Thriller",
+                "Espionage",
+                "Music",
+                "Romance",
+              ]}
+              selectedValue={selectedGenres}
+              onSelect={handleGenreFilter}
+              isMultiple={true}
+            />
+            <Dropdown
+              title="Status"
+              options={["All", "Ended", "Running", "To Be Determined"]}
+              selectedValue={statusFilter}
+              onSelect={handleStatusFilter}
+              isMultiple={false}
+            />
+            <Searchbar onSearch={handleSearch} />
           </div>
-          <Dropdown
-            title="Genres"
-            options={[
-              "Action",
-              "Crime",
-              "Science-Fiction",
-              "Drama",
-              "Thriller",
-              "Espionage",
-              "Music",
-              "Romance",
-            ]}
-            selectedValue={selectedGenres}
-            onSelect={handleGenre}
-            isMultiple={true}
-          />
-          <Dropdown
-            title="Status"
-            options={["All", "Ended", "Running", "To Be Determined"]}
-            selectedValue={statusFilter}
-            onSelect={handleStatus}
-            isMultiple={false}
-          />
-          <Searchbar onSearch={handleSearch} />
-        </div>
+        )}
       </div>
-      {isHomePage && (
-        <div
-          className="lg:hidden cursor-pointer"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? (
-            <FaTimes
-              className={`text-3xl transition ${
-                darkMode ? "text-white" : "dark_text"
-              }`}
-            />
-          ) : (
-            <FaBars
-              className={`text-3xl transition ${
-                darkMode ? "text-white" : "dark_text"
-              }`}
-            />
-          )}
-        </div>
-      )}
     </header>
   );
 };
