@@ -27,15 +27,19 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleOptionChange = (value: string) => {
     if (isMultiple) {
-      let updatedSelectedValues;
-      if (Array.isArray(selectedValue)) {
-        if (selectedValue.includes(value)) {
-          updatedSelectedValues = selectedValue.filter((val) => val !== value);
-        } else {
-          updatedSelectedValues = [...selectedValue, value];
-        }
-        onSelect(updatedSelectedValues);
+      let updatedSelectedValues = Array.isArray(selectedValue)
+        ? [...selectedValue]
+        : [];
+
+      if (updatedSelectedValues.includes(value)) {
+        updatedSelectedValues = updatedSelectedValues.filter(
+          (val) => val !== value
+        );
+      } else {
+        updatedSelectedValues.push(value);
       }
+
+      onSelect(updatedSelectedValues);
     } else {
       onSelect(value);
     }

@@ -9,6 +9,7 @@ import { useState } from "react";
 const App: React.FC = () => {
   const { darkMode } = useTheme();
   const [selectedSort, setSelectedSort] = useState("");
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -20,6 +21,7 @@ const App: React.FC = () => {
     >
       <Header
         onSelectedSort={setSelectedSort}
+        onSelectedGenres={setSelectedGenres}
         onStatusFilter={setStatusFilter}
         onSearch={setSearchQuery}
       />
@@ -30,6 +32,7 @@ const App: React.FC = () => {
             element={
               <TVShowsList
                 statusFilter={statusFilter}
+                selectedGenres={selectedGenres}
                 selectedSorting={selectedSort}
                 searchQuery={searchQuery}
               />

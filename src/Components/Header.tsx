@@ -9,19 +9,21 @@ import Dropdown from "./Dropdown.tsx";
 
 interface HeaderProps {
   onSelectedSort: (sort: string) => void;
+  onSelectedGenres: (sort: string[]) => void;
   onStatusFilter: (sort: string) => void;
   onSearch: (query: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   onSelectedSort,
+  onSelectedGenres,
   onStatusFilter,
   onSearch,
 }) => {
-  const [selectedSort, setSelectedSort] = useState("");
+  const [, setSelectedSort] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [statusFilter, setStatusFilter] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [, setSearchQuery] = useState("");
 
   const { toggleTheme, darkMode } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,16 +46,11 @@ const Header: React.FC<HeaderProps> = ({
     onSearch(query);
   };
 
-  const handleGenreChange = (value: string | string[]) => {
-    setSelectedGenres((prevSelectedGenres) => {
-      if (typeof value === "string") {
-        if (prevSelectedGenres.includes(value)) {
-          return prevSelectedGenres.filter((genre) => genre !== value);
-        }
-        return [...prevSelectedGenres, value];
-      }
-      return prevSelectedGenres;
-    });
+  const handleGenre = (value: string | string[]) => {
+    if (Array.isArray(value)) {
+      setSelectedGenres(value);
+      onSelectedGenres(value);
+    }
   };
 
   const isHomePage = currentLocation.pathname === "/";
@@ -135,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({
               "Romance",
             ]}
             selectedValue={selectedGenres}
-            onSelect={handleGenreChange}
+            onSelect={handleGenre}
             isMultiple={true}
           />
           <Dropdown

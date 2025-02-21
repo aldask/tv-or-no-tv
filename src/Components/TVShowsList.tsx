@@ -17,12 +17,14 @@ interface TVShow {
 
 interface TVShowsListProps {
   selectedSorting: string;
+  selectedGenres: string[];
   statusFilter: string;
   searchQuery: string;
 }
 
 const TVShowsList: React.FC<TVShowsListProps> = ({
   selectedSorting,
+  selectedGenres,
   statusFilter,
   searchQuery,
 }) => {
@@ -69,7 +71,12 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
         ? show.status === statusFilter
         : true;
 
-    return matchesSearch && matchesStatus;
+    const matchesGenres =
+      selectedGenres.length > 0
+        ? selectedGenres.some((genre) => show.genres.includes(genre))
+        : true;
+
+    return matchesSearch && matchesStatus && matchesGenres;
   });
 
   // Sort the filtered shows
