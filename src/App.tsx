@@ -3,8 +3,8 @@ import TVShowsList from "./Components/TVShowsList";
 import Header from "./Components/Header";
 import ShowDetails from "./Components/ShowDetails";
 import { useTheme } from "./Contexts/ThemeContext";
-import "./App.css";
 import { useState } from "react";
+import "./App.css";
 
 const App: React.FC = () => {
   const { darkMode } = useTheme();
@@ -15,8 +15,10 @@ const App: React.FC = () => {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
-        darkMode ? "bg-gray-900" : "bg-white"
+      className={`min-h-screen font-sans text-[17px] transition-colors duration-500 ${
+        darkMode
+          ? "bg-gradient-to-b from-gray-950 to-gray-800 text-gray-300"
+          : "bg-[#e4e7eb] text-gray-800"
       }`}
     >
       <Header
