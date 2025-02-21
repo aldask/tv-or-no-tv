@@ -12,7 +12,7 @@ import SortDropdown from "./SortDropdown.tsx";
 interface HeaderProps {
   onSelectedSort: (sort: string) => void;
   onSelectedGenres: (sort: string[]) => void;
-  onStatusFilter: (status: string | string[]) => void;
+  onStatusFilter: (sort: string) => void;
   onSearch: (query: string) => void;
 }
 
@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [, setSortingFilterValue] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [statusFilter, setStatusFilter] = useState<string | string[]>("All");
+  const [statusFilter, setStatusFilter] = useState("All");
   const [, setSearchQuery] = useState("");
 
   const { toggleTheme, darkMode } = useTheme();
@@ -47,8 +47,10 @@ const Header: React.FC<HeaderProps> = ({
 
   // Handler for status filter
   const handleStatusFilter = (value: string | string[]) => {
-    setStatusFilter(value);
-    onStatusFilter(value);
+    if (typeof value === "string") {
+      setStatusFilter(value);
+      onStatusFilter(value);
+    }
   };
 
   const handleSearch = (query: string) => {

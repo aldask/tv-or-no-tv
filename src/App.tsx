@@ -25,7 +25,7 @@ const App: React.FC = () => {
         onStatusFilter={setStatusFilter}
         onSearch={setSearchQuery}
       />
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-10 py-4">
         <Routes>
           <Route
             path="/"

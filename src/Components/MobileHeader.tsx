@@ -13,7 +13,7 @@ interface MobileMenuProps {
   onSearch: (query: string) => void;
   onSelectedSort: (sort: string) => void;
   selectedGenres: string[];
-  selectedStatus: string | string[];
+  selectedStatus: string;
   onSelectedGenres: (genres: string | string[]) => void;
   onSelectedStatus: (status: string | string[]) => void;
 }
@@ -89,7 +89,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             }`}
           >
             {isHomePage && (
-              <div className="hidden lg:flex flex-row lg:justify-center xl:justify-start align-center space-x-4 w-full">
+              <div className="flex flex-col lg:flex-row justify-center xl:justify-start align-center space-x-4 w-full">
                 <SortDropdown onSort={onSelectedSort} />
                 <Dropdown
                   title="Genres"
