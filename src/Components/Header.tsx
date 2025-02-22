@@ -66,14 +66,18 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header>
-      <div className="flex flex-col justify-between items-center py-4 px-8 container mx-auto">
+      <div className="flex flex-col justify-between items-center py-4 px-4 container mx-auto">
         <div className="flex flex-row justify-between items-center py-4 px-8 container mx-auto">
           <div className="flex flex-row items-center space-x-4">
-            <img className="h-24 w-auto" alt="tv-or-no-tv_logo" src={logoUrl} />
+            <img
+              className="h-16 md:h-24 w-auto"
+              alt="tv-or-no-tv_logo"
+              src={logoUrl}
+            />
             <div
               onClick={toggleTheme}
               className={`w-14 h-7 flex items-center rounded-full p-1 cursor-pointer transition-all ${
-                darkMode ? "bg-gray-800" : "bg-yellow-300"
+                darkMode ? "bg-gray-800" : "bg-yellow-500"
               }`}
             >
               <div
@@ -84,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({
                 {darkMode ? (
                   <FaMoon className="text-gray-800" />
                 ) : (
-                  <FaSun className="text-yellow-400" />
+                  <FaSun className="text-yellow-500" />
                 )}
               </div>
             </div>
