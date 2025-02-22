@@ -66,14 +66,18 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header>
-      <div className="flex flex-col justify-between items-center py-4 px-8 container mx-auto">
+      <div className="flex flex-col justify-between items-center py-4 px-4 container mx-auto">
         <div className="flex flex-row justify-between items-center py-4 px-8 container mx-auto">
           <div className="flex flex-row items-center space-x-4">
-            <img className="h-24 w-auto" alt="tv-or-no-tv_logo" src={logoUrl} />
+            <img
+              className="h-16 md:h-24 w-auto"
+              alt="tv-or-no-tv_logo"
+              src={logoUrl}
+            />
             <div
               onClick={toggleTheme}
-              className={`w-14 h-7 flex items-center rounded-full p-1 cursor-pointer transition ${
-                darkMode ? "bg-gray-800" : "bg-yellow-300"
+              className={`w-14 h-7 flex items-center rounded-full p-1 cursor-pointer transition-all ${
+                darkMode ? "bg-gray-800" : "bg-yellow-500"
               }`}
             >
               <div
@@ -84,20 +88,20 @@ const Header: React.FC<HeaderProps> = ({
                 {darkMode ? (
                   <FaMoon className="text-gray-800" />
                 ) : (
-                  <FaSun className="text-yellow-400" />
+                  <FaSun className="text-yellow-500" />
                 )}
               </div>
             </div>
           </div>
           <div>
-            <div className="hidden lg:flex space-x-6">
+            <div className="hidden lg:flex space-x-4">
               <Link to="/">
                 <button
                   className={`${
                     darkMode
-                      ? "bg-gray-800 text-white hover:bg-gray-700"
-                      : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                  } px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none shadow-lg border-2 border-transparent hover:border-gray-400`}
+                      ? "bg-gray-800 text-white hover:bg-green-600"
+                      : "bg-green-600 text-white hover:bg-green-700"
+                  } px-5 py-3 text-base rounded-md font-medium transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none shadow-md border-2 border-transparent hover:border-green-500`}
                 >
                   Home
                 </button>
@@ -105,9 +109,9 @@ const Header: React.FC<HeaderProps> = ({
               <button
                 className={`${
                   darkMode
-                    ? "bg-gray-800 text-white hover:bg-gray-700"
-                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                } px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none shadow-lg border-2 border-transparent hover:border-gray-400`}
+                    ? "bg-gray-800 text-white hover:bg-green-600"
+                    : "bg-green-600 text-white hover:bg-green-700"
+                } px-5 py-3 text-base rounded-md font-medium transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none shadow-md border-2 border-transparent hover:border-green-500`}
               >
                 Favourites
               </button>

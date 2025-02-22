@@ -3,8 +3,8 @@ import TVShowsList from "./Components/TVShowsList";
 import Header from "./Components/Header";
 import ShowDetails from "./Components/ShowDetails";
 import { useTheme } from "./Contexts/ThemeContext";
-import "./App.css";
 import { useState } from "react";
+import "./App.css";
 
 const App: React.FC = () => {
   const { darkMode } = useTheme();
@@ -15,8 +15,10 @@ const App: React.FC = () => {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
-        darkMode ? "bg-gray-900" : "bg-white"
+      className={`min-h-screen font-sans text-[17px] transition-colors duration-500 ${
+        darkMode
+          ? "bg-gradient-to-b from-gray-950 to-gray-800 text-gray-300"
+          : "bg-[#e4e7eb] text-gray-800"
       }`}
     >
       <Header
@@ -25,7 +27,7 @@ const App: React.FC = () => {
         onStatusFilter={setStatusFilter}
         onSearch={setSearchQuery}
       />
-      <main className="container mx-auto px-10 py-4">
+      <main className="container mx-auto px-6 py-4">
         <Routes>
           <Route
             path="/"
@@ -41,6 +43,9 @@ const App: React.FC = () => {
           <Route path="/shows/:id" element={<ShowDetails />} />
         </Routes>
       </main>
+      <footer className="flex justify-center text-center p-4 text-xs text-green-500">
+        &#169; by Aldas For Reiz Tech {new Date().getFullYear()}
+      </footer>
     </div>
   );
 };

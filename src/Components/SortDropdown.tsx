@@ -9,11 +9,13 @@ const SortDropdown: React.FC<SortDropdownProps> = ({ onSort }) => {
   const { darkMode } = useTheme();
 
   return (
-    <div className="relative w-full lg:w-54 mb-4">
+    <div className="relative w-full lg:w-44 mb-4">
       <select
         className={`${
-          darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-        } px-4 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full text-lg transition-all`}
+          darkMode
+            ? "bg-gray-800 text-white border-gray-600"
+            : "bg-gray-100 text-gray-800 border-gray-300"
+        } px-3 py-2 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm transition-all duration-300 hover:bg-gray-200 dark:hover:bg-gray-600`}
         onChange={(e) => onSort(e.target.value)}
       >
         <option value="">No sort</option>

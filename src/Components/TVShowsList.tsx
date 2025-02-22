@@ -52,6 +52,10 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
       });
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, selectedGenres]);
+
   if (loading) {
     return <div>Loading...</div>; // This part will need to be improved for better user experience
   }
@@ -124,7 +128,11 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
     <>
       {error && <p className="text-red-500 text-center">{error}</p>}
       {currentPageShows.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 place-items-center">
+        <div
+          className={`grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 place-items-center ${
+            darkMode ? "text-gray-300" : "text-gray-800"
+          }`}
+        >
           {currentPageShows.map((show) => (
             <ShowCard
               key={show.id}
@@ -134,7 +142,11 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
           ))}
         </div>
       ) : searchQuery ? (
-        <div className="text-center text-gray-500 mt-10">
+        <div
+          className={`text-center text-gray-500 mt-10 ${
+            darkMode ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
           <h2 className="text-2xl font-semibold">No shows found</h2>
           <p className="text-lg">Try searching for something else.</p>
         </div>
@@ -146,14 +158,14 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
               key={number}
               onClick={() => handlePageChange(number)}
               disabled={currentPage === number}
-              className={`px-3 py-1 rounded-lg font-medium text-xs sm:text-sm transition-all ${
+              className={`px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all ${
                 currentPage === number
                   ? darkMode
-                    ? "bg-green-400 text-black cursor-not-allowed"
+                    ? "bg-green-500 text-white cursor-not-allowed"
                     : "bg-green-600 text-white cursor-not-allowed"
                   : darkMode
-                  ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
               }`}
             >
               {number}

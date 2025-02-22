@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { useState, useRef, useEffect } from "react";
+import { FaChevronUp } from "react-icons/fa";
 import { useTheme } from "../Contexts/ThemeContext";
 
 interface DropdownProps {
@@ -65,26 +65,30 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [isOpen]);
 
   return (
-    <div ref={dropdownRef} className="relative w-full lg:w-38 mb-4">
+    <div ref={dropdownRef} className="relative w-full lg:w-36 mb-4">
       <button
         onClick={handleDropdown}
         className={`${
-          darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-        } px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full flex justify-between items-center`}
+          darkMode
+            ? "bg-gray-800 text-white hover:bg-gray-700 border-gray-600"
+            : "bg-gray-100 text-gray-800 hover:bg-gray-300 border-gray-300"
+        } px-3 py-2 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-sm transition-all duration-300 flex justify-between items-center`}
       >
         {title}
-        {isOpen ? (
-          <FaChevronUp className="inline-block ml-2 text-xl" />
-        ) : (
-          <FaChevronDown className="inline-block ml-2 text-xl" />
-        )}
+        <div
+          className={`inline-block ml-2 text-xl transition-transform duration-300 ${
+            isOpen ? "rotate-180" : "rotate-0"
+          }`}
+        >
+          <FaChevronUp />
+        </div>
       </button>
 
       {isOpen && (
         <div
           className={`absolute left-0 mt-2 w-full shadow-lg rounded-lg z-10 ${
             darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-          }`}
+          } transform transition-all duration-300 ease-out opacity-100 animate-fadeIn`}
         >
           <div className="p-2 space-y-2">
             {options.map((option) => (
@@ -92,7 +96,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 key={option}
                 className={`block flex items-center cursor-pointer ${
                   darkMode ? "text-white" : "text-black"
-                }`}
+                } rounded-lg px-2 py-1 transition-all duration-300 ease-in-out transform hover:scale-105`}
               >
                 {isMultiple ? (
                   <input
