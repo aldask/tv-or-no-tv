@@ -2,22 +2,21 @@ import React from "react";
 import he from "he";
 import { FaHeart } from "react-icons/fa";
 import { useTheme } from "../Contexts/ThemeContext";
+import { TVShow } from "./TVShowsList";
 
-interface Show {
-  id: number;
-  name: string;
-  image: { medium: string };
-  summary: string;
-  rating: { average: number };
-  genres: string[];
-}
-
-interface ShowCardProps {
-  show: Show;
+export interface ShowCardProps {
+  show: TVShow;
   onClick: () => void;
+  saveShow: boolean;
+  handleFav: () => void;
 }
 
-const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
+const ShowCard: React.FC<ShowCardProps> = ({
+  show,
+  onClick,
+  saveShow,
+  handleFav,
+}) => {
   const { darkMode } = useTheme();
 
   return (
@@ -31,7 +30,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
         <img
           src={show.image.medium}
           alt={show.name}
-          className="w-32 sm:w-52 lg:w-64 h-auto object-cover rounded-lg" // Adjusted image size based on screen size
+          className="w-32 sm:w-52 lg:w-64 h-auto object-cover rounded-lg"
         />
       )}
       <div className="ml-6 flex flex-col justify-between w-full">
@@ -40,17 +39,24 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
             <h3
               className={`text-lg sm:text-xl md:text-2xl font-bold ${
                 darkMode ? "text-white" : "text-gray-800"
-              }`} // Smaller title on mobile
+              }`}
             >
               {show.name}
             </h3>
-            <button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleFav();
+              }}
+            >
               <FaHeart
-                className={`text-xl ${
-                  darkMode
+                className={`text-xl cursor-pointer transition ${
+                  saveShow
+                    ? "text-green-500"
+                    : darkMode
                     ? "text-gray-500 hover:text-green-400"
                     : "text-gray-700 hover:text-green-500"
-                } transition`}
+                }`}
               />
             </button>
           </div>

@@ -4,11 +4,14 @@ import ShowCard from "./ShowCard";
 import { useTheme } from "../Contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
-interface TVShow {
+export interface TVShow {
   id: number;
   name: string;
   summary: string;
-  image: { medium: string };
+  image: {
+    original: string | undefined;
+    medium: string;
+  };
   rating: { average: number };
   genres: string[];
   premiered: string;
@@ -33,8 +36,17 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [favorites, setFavorites] = useState<TVShow[]>([]);
   const itemsPerPage = 8;
   const navigate = useNavigate();
+
+  // Load favorites from localStorage on component mount
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem("favorites");
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -56,12 +68,31 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
     setCurrentPage(1);
   }, [searchQuery, statusFilter, selectedGenres]);
 
+  // Handle adding/removing a show from favorites
+  const handleFav = (show: TVShow) => {
+    const storedFavorites = localStorage.getItem("favorites");
+    let updatedFavorites: TVShow[] = storedFavorites
+      ? JSON.parse(storedFavorites)
+      : [];
+
+    const isFavorite = updatedFavorites.some((fav) => fav.id === show.id);
+
+    if (isFavorite) {
+      updatedFavorites = updatedFavorites.filter((fav) => fav.id !== show.id);
+    } else {
+      updatedFavorites.push(show);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setFavorites(updatedFavorites);
+  };
+
   if (loading) {
-    return <div>Loading...</div>; // This part will need to be improved for better user experience
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // This one also need to be improved
+    return <div>Error: {error}</div>;
   }
 
   // Filter shows based on search query
@@ -133,13 +164,19 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
             darkMode ? "text-gray-300" : "text-gray-800"
           }`}
         >
-          {currentPageShows.map((show) => (
-            <ShowCard
-              key={show.id}
-              show={show}
-              onClick={() => navigate(`/shows/${show.id}`)}
-            />
-          ))}
+          {currentPageShows.map((show) => {
+            const saveShow = favorites.some((fav) => fav.id === show.id); // Checking if show is a favorite
+
+            return (
+              <ShowCard
+                key={show.id}
+                show={show}
+                onClick={() => navigate(`/shows/${show.id}`)}
+                saveShow={saveShow} // passs favorite status
+                handleFav={() => handleFav(show)} // pass favcard to ShowCard
+              />
+            );
+          })}
         </div>
       ) : searchQuery ? (
         <div
@@ -150,7 +187,16 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
           <h2 className="text-2xl font-semibold">No shows found</h2>
           <p className="text-lg">Try searching for something else.</p>
         </div>
-      ) : null}
+      ) : (
+        <div
+          className={`text-center text-gray-500 mt-10 ${
+            darkMode ? "text-gray-400" : "text-gray-600"
+          }`}
+        >
+          <h2 className="text-2xl font-semibold">No shows found</h2>
+          <p className="text-lg">Try searching for something else.</p>
+        </div>
+      )}
       {filteredShows.length > itemsPerPage && (
         <div className="flex justify-center mt-10 flex-wrap gap-1 sm:gap-2">
           {pageNumbers.map((number) => (

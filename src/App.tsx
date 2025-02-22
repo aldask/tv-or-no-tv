@@ -5,6 +5,7 @@ import ShowDetails from "./Components/ShowDetails";
 import { useTheme } from "./Contexts/ThemeContext";
 import { useState } from "react";
 import "./App.css";
+import Favorites from "./Components/Favorites";
 
 const App: React.FC = () => {
   const { darkMode } = useTheme();
@@ -41,6 +42,7 @@ const App: React.FC = () => {
             }
           />
           <Route path="/shows/:id" element={<ShowDetails />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </main>
       <footer className="flex justify-center text-center p-4 text-xs text-green-500">

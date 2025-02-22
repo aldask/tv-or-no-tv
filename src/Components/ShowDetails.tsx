@@ -3,30 +3,36 @@ import { useParams } from "react-router-dom";
 import he from "he";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
+import { TVShow } from "./TVShowsList";
 import { useTheme } from "../Contexts/ThemeContext";
 
-interface Show {
-  id: number;
-  name: string;
-  image: { medium: string; original: string };
-  summary: string;
-  rating: { average: number };
-  genres: string[];
+interface ShowDetails extends TVShow {
   averageRuntime: number;
   premiered: string;
   ended: string;
   language: string;
   officialSite: string;
+  saveShow: boolean;
+  handleFav: () => void;
 }
 
 const ShowDetails: React.FC = () => {
   const { id } = useParams();
   const { darkMode } = useTheme();
-  const [show, setShow] = useState<Show | null>(null);
+  const [show, setShow] = useState<ShowDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [saveShow, setSaveShow] = useState(false);
 
   useEffect(() => {
+    const storedFavorites = localStorage.getItem("favorites");
+    const parsedFavorites: TVShow[] = storedFavorites
+      ? JSON.parse(storedFavorites)
+      : [];
+
+    const isFavorite = parsedFavorites.some((fav) => fav.id === Number(id));
+    setSaveShow(isFavorite);
+
     axios
       .get(`https://api.tvmaze.com/shows/${id}`)
       .then((response) => {
@@ -38,6 +44,27 @@ const ShowDetails: React.FC = () => {
         setLoading(false);
       });
   }, [id]);
+
+  // Handle adding/removing a show from favorites
+  const handleFav = () => {
+    const storedFavorites = localStorage.getItem("favorites");
+    let updatedFavorites: TVShow[] = storedFavorites
+      ? JSON.parse(storedFavorites)
+      : [];
+
+    const isFavorite = updatedFavorites.some((fav) => fav.id === Number(id));
+
+    if (isFavorite) {
+      updatedFavorites = updatedFavorites.filter(
+        (fav) => fav.id !== Number(id)
+      );
+    } else {
+      updatedFavorites.push(show!);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setSaveShow(!saveShow);
+  };
 
   if (loading)
     return <div className="text-center py-10 text-gray-500">Loading...</div>;
@@ -71,13 +98,15 @@ const ShowDetails: React.FC = () => {
             >
               {show.name}
             </h1>
-            <button>
+            <button onClick={handleFav}>
               <FaHeart
-                className={`text-2xl sm:text-3xl ${
-                  darkMode
+                className={`text-xl cursor-pointer transition ${
+                  saveShow
+                    ? "text-green-500"
+                    : darkMode
                     ? "text-gray-500 hover:text-green-400"
                     : "text-gray-700 hover:text-green-500"
-                } transition`}
+                }`}
               />
             </button>
           </div>
