@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header>
-      <div className="flex flex-col justify-between items-center py-4 px-4 container mx-auto">
+      <div className="flex flex-col items-center justify-between py-4 sm:py-3 sm:px-6 md:px-8 lg:px-12 xl:px-16 container mx-auto">
         <div className="flex flex-row justify-between items-center py-4 px-8 container mx-auto">
           <div className="flex flex-row items-center space-x-4">
             <Link to="/" onClick={() => setIsMenuOpen(false)}>
@@ -83,13 +83,15 @@ const Header: React.FC<HeaderProps> = ({
             </Link>
             <div
               onClick={toggleTheme}
-              className={`w-14 h-7 flex items-center rounded-full p-1 cursor-pointer transition-all ${
+              className={`w-12 h-6 sm:w-14 sm:h-7 flex items-center rounded-full p-1 cursor-pointer transition-all ${
                 darkMode ? "bg-gray-800" : "bg-yellow-500"
               }`}
             >
               <div
-                className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-all ${
-                  darkMode ? "translate-x-[26px]" : "translate-x-[-2px]"
+                className={`w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-full shadow-md transform transition-all ${
+                  darkMode
+                    ? "translate-x-[20px] sm:translate-x-[26px]"
+                    : "translate-x-[0px] sm:translate-x-[-2px]"
                 } flex items-center justify-center`}
               >
                 {darkMode ? (
