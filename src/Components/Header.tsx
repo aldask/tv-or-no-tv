@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({
   const currentLocation = useLocation();
 
   // Handler for sorting
-  const [sortingFilterValue, setSortingFilterValue] = useState("");
+  const [sortingFilterValue, setSortingFilterValue] = useState("No sort");
 
   const handleSortingFilter = (value: string | string[]) => {
     if (typeof value === "string") {
