@@ -3,15 +3,11 @@ import { useParams } from "react-router-dom";
 import he from "he";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
+import { TVShow } from "./TVShowsList";
 import { useTheme } from "../Contexts/ThemeContext";
+import { favContext } from "../Contexts/FavoriteContext";
 
-interface Show {
-  id: number;
-  name: string;
-  image: { medium: string; original: string };
-  summary: string;
-  rating: { average: number };
-  genres: string[];
+interface ShowDetails extends TVShow {
   averageRuntime: number;
   premiered: string;
   ended: string;
@@ -22,7 +18,8 @@ interface Show {
 const ShowDetails: React.FC = () => {
   const { id } = useParams();
   const { darkMode } = useTheme();
-  const [show, setShow] = useState<Show | null>(null);
+  const { favorites, addFavorite, removeFavorite } = favContext();
+  const [show, setShow] = useState<ShowDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -38,6 +35,17 @@ const ShowDetails: React.FC = () => {
         setLoading(false);
       });
   }, [id]);
+
+  const isFavorite = favorites.some((fav: TVShow) => fav.id === Number(id));
+
+  const handleFav = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      removeFavorite(show!);
+    } else {
+      addFavorite(show!);
+    }
+  };
 
   if (loading)
     return <div className="text-center py-10 text-gray-500">Loading...</div>;
@@ -73,11 +81,14 @@ const ShowDetails: React.FC = () => {
             </h1>
             <button>
               <FaHeart
-                className={`text-2xl sm:text-3xl ${
-                  darkMode
+                onClick={handleFav}
+                className={`text-xl cursor-pointer transition ${
+                  isFavorite
+                    ? "text-green-500"
+                    : darkMode
                     ? "text-gray-500 hover:text-green-400"
                     : "text-gray-700 hover:text-green-500"
-                } transition`}
+                }`}
               />
             </button>
           </div>

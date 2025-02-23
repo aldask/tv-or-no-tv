@@ -95,7 +95,7 @@ const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="hidden lg:flex space-x-4">
-              <Link to="/">
+              <Link to="/" onClick={() => setIsMenuOpen(false)}>
                 <button
                   className={`${
                     darkMode
@@ -106,15 +106,17 @@ const Header: React.FC<HeaderProps> = ({
                   Home
                 </button>
               </Link>
-              <button
-                className={`${
-                  darkMode
-                    ? "bg-gray-800 text-white hover:bg-green-600"
-                    : "bg-green-600 text-white hover:bg-green-700"
-                } px-5 py-3 text-base rounded-md font-medium transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none shadow-md border-2 border-transparent hover:border-green-500`}
-              >
-                Favourites
-              </button>
+              <Link to="/favorites" onClick={() => setIsMenuOpen(false)}>
+                <button
+                  className={`${
+                    darkMode
+                      ? "bg-gray-800 text-white hover:bg-green-600"
+                      : "bg-green-600 text-white hover:bg-green-700"
+                  } px-5 py-3 text-base rounded-md font-medium transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none shadow-md border-2 border-transparent hover:border-green-500`}
+                >
+                  Favourites
+                </button>
+              </Link>
             </div>
             <MobileMenu
               isMenuOpen={isMenuOpen}
