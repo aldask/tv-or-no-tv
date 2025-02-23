@@ -83,7 +83,6 @@ const Dropdown: React.FC<DropdownProps> = ({
           <FaChevronUp />
         </div>
       </button>
-
       {isOpen && (
         <div
           className={`absolute left-0 mt-2 w-full shadow-lg rounded-lg z-10 ${
@@ -94,7 +93,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             {options.map((option) => (
               <label
                 key={option}
-                className={`block flex items-center cursor-pointer ${
+                className={`block flex items-center cursor-pointer text-sm ${
                   darkMode ? "text-white" : "text-black"
                 } rounded-lg px-2 py-1 transition-all duration-300 ease-in-out transform hover:scale-105`}
               >

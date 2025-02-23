@@ -1,50 +1,75 @@
-# React + TypeScript + Vite
+# ![Logo here](src/assets/logo.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a TV Shows application built using **React**, **TypeScript**, and **Tailwind CSS**, fetching data from the [TVMaze API](https://api.tvmaze.com/shows). The app displays a paginated list of TV shows, with features such as filters, sorting, TV show overview pages, and a favorites system. It also supports dark and light themes.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Home Page
 
-## Expanding the ESLint configuration
+- **Paginated list of TV Shows**: Displays a list of TV shows with a poster, title, shortened description, rating, and genres.
+- **Filters**:
+  - **Genre** filter (multi-select)
+  - **Status** filter (single-select)
+- **Sorting**:
+  - Sort TV shows by **name** or **premiere date** in both ascending and descending order.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### TV Show Overview Page
 
-- Configure the top-level `parserOptions` property like this:
+- Clicking on a TV show in the Home or Favorites page routes to the **show overview page**.
+- The show overview page includes the full poster image, a complete description, and other most relevant data from the API.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Favorites Page
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- A **Favorites page** lists all favorited TV shows.
+- No pagination is used.
+- TV shows can be added or removed from favorites, utilizing **Local Storage** for persistent state.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Responsive Design
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- The app is **fully responsive** and optimized for mobile, tablet, and desktop screens.
+
+### Bonus Features
+
+- Written in **TypeScript** for better type safety.
+- Supports both **dark** and **light themes**.
+- Deployed and accessible online.
+
+## Installation
+
+To run this project locally, follow these steps:
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/aldask/tv-or-no-tv.git
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Run the app**:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser to view the app.
+
+## Technologies Used
+
+- **React** for building the user interface.
+- **TypeScript** for static typing.
+- **Vite** for fast development and bundling.
+- **Tailwind CSS** for utility-first CSS styling.
+- **CSS Modules** (or styled-components) for scoped styles.
+- **Local Storage** for managing favorites.
+- **React Router** for navigation.
+
+## Live View
+
+The app has been deployed and can be accessed at the following URL:
+
+[TV or No TV](https://tv-or-no-tv.vercel.app/)
