@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import logoUrl from "../assets/logo.png";
-import { useTheme } from "../Contexts/ThemeContext.tsx";
-import { FaMoon, FaSun } from "react-icons/fa";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import { FaMoon, FaSun } from "react-icons/fa";
+import logoUrl from "../assets/logo.png";
+import { useTheme } from "../Contexts/ThemeContext.tsx";
 import Searchbar from "./Searchbar.tsx";
 import Dropdown from "./Dropdown.tsx";
 import MobileMenu from "./MobileHeader.tsx";
-import SortDropdown from "./SortDropdown.tsx";
 
 interface HeaderProps {
   onSelectedSort: (sort: string) => void;
@@ -22,22 +21,23 @@ const Header: React.FC<HeaderProps> = ({
   onStatusFilter,
   onSearch,
 }) => {
-  const [, setSortingFilterValue] = useState("");
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [, setSearchQuery] = useState("");
-
   const { toggleTheme, darkMode } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const currentLocation = useLocation();
 
   // Handler for sorting
-  const handleSortingFilter = (value: string) => {
-    setSortingFilterValue(value);
-    onSelectedSort(value);
+  const [sortingFilterValue, setSortingFilterValue] = useState("");
+
+  const handleSortingFilter = (value: string | string[]) => {
+    if (typeof value === "string") {
+      setSortingFilterValue(value);
+      onSelectedSort(value);
+    }
   };
 
   // Handler for genres
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+
   const handleGenreFilter = (value: string | string[]) => {
     if (Array.isArray(value)) {
       setSelectedGenres(value);
@@ -46,12 +46,17 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   // Handler for status filter
+  const [statusFilter, setStatusFilter] = useState("All");
+
   const handleStatusFilter = (value: string | string[]) => {
     if (typeof value === "string") {
       setStatusFilter(value);
       onStatusFilter(value);
     }
   };
+
+  // Handler for search
+  const [, setSearchQuery] = useState("");
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -121,8 +126,9 @@ const Header: React.FC<HeaderProps> = ({
             <MobileMenu
               isMenuOpen={isMenuOpen}
               toggleMenu={toggleMenu}
+              selectedSort={sortingFilterValue}
+              onSelectedSort={handleSortingFilter}
               onSearch={handleSearch}
-              onSelectedSort={onSelectedSort}
               selectedGenres={selectedGenres}
               selectedStatus={statusFilter}
               onSelectedGenres={handleGenreFilter}
@@ -132,7 +138,19 @@ const Header: React.FC<HeaderProps> = ({
         </div>
         {isHomePage && (
           <div className="hidden lg:flex flex-row lg:justify-center xl:justify-start align-center space-x-4 w-full">
-            <SortDropdown onSort={handleSortingFilter} />
+            <Dropdown
+              title="Sort By"
+              options={[
+                "No sort",
+                "Name ascending",
+                "Name descending",
+                "Premiered ascending",
+                "Premiered descending",
+              ]}
+              selectedValue={sortingFilterValue}
+              onSelect={handleSortingFilter}
+              isMultiple={false}
+            />
             <Dropdown
               title="Genres"
               options={[

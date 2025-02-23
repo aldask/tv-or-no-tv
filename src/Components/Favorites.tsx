@@ -1,12 +1,11 @@
 import React from "react";
-import ShowCard from "./ShowCard";
 import { useNavigate } from "react-router-dom";
-import { favContext } from "../Contexts/FavoriteContext";
 import { useTheme } from "../Contexts/ThemeContext";
+import { favContext } from "../Contexts/FavoriteContext";
+import ShowCard from "./ShowCard";
 
 const Favorites: React.FC = () => {
   const { darkMode } = useTheme();
-
   const { favorites } = favContext();
   const navigate = useNavigate();
 
@@ -17,7 +16,7 @@ const Favorites: React.FC = () => {
           darkMode ? "text-white" : "text-gray-800"
         }`}
       >
-        Your Favorite Shows
+        My Favorite Shows
       </h2>
 
       {favorites.length > 0 ? (

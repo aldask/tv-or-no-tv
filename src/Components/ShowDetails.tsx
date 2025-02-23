@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import he from "he";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
-import { TVShow } from "./TVShowsList";
 import { useTheme } from "../Contexts/ThemeContext";
 import { favContext } from "../Contexts/FavoriteContext";
+import { TVShow } from "./TVShowsList";
 
 interface ShowDetails extends TVShow {
   averageRuntime: number;
@@ -107,14 +107,16 @@ const ShowDetails: React.FC = () => {
               <strong className="text-sm sm:text-base lg:text-lg">
                 Rating:
               </strong>{" "}
-              {show.rating.average}/10
+              {show.rating.average ? show.rating.average + "/10" : "N/A"}
             </p>
             <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
               🎭{" "}
               <strong className="text-sm sm:text-base lg:text-lg">
                 Genres:
               </strong>{" "}
-              {show.genres.join(", ")}
+              {show.genres && show.genres.length > 0
+                ? show.genres.join(", ")
+                : "No genre"}
             </p>
             <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
               🕒{" "}
@@ -135,7 +137,7 @@ const ShowDetails: React.FC = () => {
               <strong className="text-sm sm:text-base lg:text-lg">
                 Ended:
               </strong>{" "}
-              {show.ended}
+              {show.ended ? show.ended : "Ongoing"}
             </p>
             <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
               🗣️{" "}

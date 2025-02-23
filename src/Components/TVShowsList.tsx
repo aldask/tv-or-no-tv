@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ShowCard from "./ShowCard";
-import { useTheme } from "../Contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../Contexts/ThemeContext";
+import ShowCard from "./ShowCard";
 
 export interface TVShow {
   id: number;

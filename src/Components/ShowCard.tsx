@@ -2,8 +2,8 @@ import React from "react";
 import he from "he";
 import { FaHeart } from "react-icons/fa";
 import { useTheme } from "../Contexts/ThemeContext";
-import { TVShow } from "./TVShowsList";
 import { favContext } from "../Contexts/FavoriteContext";
+import { TVShow } from "./TVShowsList";
 
 export interface ShowCardProps {
   show: TVShow;
@@ -72,10 +72,14 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
         </div>
         <div className="mt-4 text-sm sm:text-base md:text-lg">
           <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-            ⭐ <strong>Rating:</strong> {show.rating.average}/10
+            ⭐ <strong>Rating:</strong>{" "}
+            {show.rating.average ? show.rating.average + "/10" : "N/A"}
           </p>
           <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-            🎭 <strong>Genres:</strong> {show.genres.join(", ")}
+            🎭 <strong>Genres:</strong>{" "}
+            {show.genres && show.genres.length > 0
+              ? show.genres.join(", ")
+              : "No genre"}
           </p>
         </div>
       </div>
