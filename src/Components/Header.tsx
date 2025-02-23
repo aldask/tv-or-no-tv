@@ -67,6 +67,18 @@ const Header: React.FC<HeaderProps> = ({
     setIsMenuOpen((prev) => !prev);
   };
 
+  // Handler for filter reset
+  const handleFilterReset = () => {
+    setSortingFilterValue("No sort");
+    setSelectedGenres([]);
+    setStatusFilter("All");
+    setSearchQuery("");
+    onSelectedSort("No sort");
+    onSelectedGenres([]);
+    onStatusFilter("All");
+    onSearch("");
+  };
+
   const isHomePage = currentLocation.pathname === "/";
 
   return (
@@ -74,7 +86,13 @@ const Header: React.FC<HeaderProps> = ({
       <div className="flex flex-col items-center justify-between py-4 sm:py-3 sm:px-6 md:px-8 lg:px-12 xl:px-16 container mx-auto">
         <div className="flex flex-row justify-between items-center py-4 px-8 container mx-auto">
           <div className="flex flex-row items-center space-x-4">
-            <Link to="/" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/"
+              onClick={() => {
+                setIsMenuOpen(false);
+                handleFilterReset();
+              }}
+            >
               <img
                 className="h-16 md:h-24 w-auto"
                 alt="tv-or-no-tv_logo"
@@ -104,7 +122,13 @@ const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="hidden lg:flex space-x-4">
-              <Link to="/" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                to="/"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleFilterReset();
+                }}
+              >
                 <button
                   className={`${
                     darkMode
@@ -115,7 +139,13 @@ const Header: React.FC<HeaderProps> = ({
                   Home
                 </button>
               </Link>
-              <Link to="/favorites" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                to="/favorites"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleFilterReset();
+                }}
+              >
                 <button
                   className={`${
                     darkMode
@@ -129,6 +159,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
             <MobileMenu
               isMenuOpen={isMenuOpen}
+              onFilterReset={handleFilterReset}
               toggleMenu={toggleMenu}
               selectedSort={sortingFilterValue}
               onSelectedSort={handleSortingFilter}

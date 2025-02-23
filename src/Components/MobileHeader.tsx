@@ -8,6 +8,7 @@ import Searchbar from "./Searchbar.tsx";
 
 interface MobileMenuProps {
   isMenuOpen: boolean;
+  onFilterReset: () => void;
   toggleMenu: () => void;
   selectedSort: string;
   onSelectedSort: (sort: string | string[]) => void;
@@ -20,6 +21,7 @@ interface MobileMenuProps {
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
   isMenuOpen,
+  onFilterReset,
   toggleMenu,
   selectedSort,
   onSearch,
@@ -75,7 +77,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             darkMode ? "text-white" : "text-gray-800"
           }`}
         >
-          <Link to="/" onClick={toggleMenu}>
+          <Link
+            to="/"
+            onClick={() => {
+              toggleMenu();
+              onFilterReset();
+            }}
+          >
             <button
               className={`${
                 darkMode
@@ -86,7 +94,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               Home
             </button>
           </Link>
-          <Link to="/favorites" onClick={toggleMenu}>
+          <Link
+            to="/favorites"
+            onClick={() => {
+              toggleMenu();
+              onFilterReset();
+            }}
+          >
             <button
               className={`${
                 darkMode
