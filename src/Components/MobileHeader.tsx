@@ -1,26 +1,27 @@
 import React, { useEffect } from "react";
-import { FaTimes, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
+import { FaTimes, FaBars } from "react-icons/fa";
+import { useTheme } from "../Contexts/ThemeContext.tsx";
 import Dropdown from "./Dropdown.tsx";
 import Searchbar from "./Searchbar.tsx";
-import { useTheme } from "../Contexts/ThemeContext.tsx";
-import SortDropdown from "./SortDropdown.tsx";
 
 interface MobileMenuProps {
   isMenuOpen: boolean;
   toggleMenu: () => void;
-  onSearch: (query: string) => void;
-  onSelectedSort: (sort: string) => void;
+  selectedSort: string;
+  onSelectedSort: (sort: string | string[]) => void;
   selectedGenres: string[];
-  selectedStatus: string;
   onSelectedGenres: (genres: string | string[]) => void;
+  selectedStatus: string;
   onSelectedStatus: (status: string | string[]) => void;
+  onSearch: (query: string) => void;
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
   isMenuOpen,
   toggleMenu,
+  selectedSort,
   onSearch,
   onSelectedSort,
   selectedGenres,
@@ -30,6 +31,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 }) => {
   const { darkMode } = useTheme();
   const currentLocation = useLocation();
+
   const isHomePage = currentLocation.pathname === "/";
 
   // Effect to disable scroll when menu is open
@@ -84,7 +86,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               Home
             </button>
           </Link>
-          <Link to="favourites" onClick={toggleMenu}>
+          <Link to="/favorites" onClick={toggleMenu}>
             <button
               className={`${
                 darkMode
@@ -97,7 +99,19 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           </Link>
           {isHomePage && (
             <div className="flex flex-col w-full px-6 space-y-6">
-              <SortDropdown onSort={onSelectedSort} />
+              <Dropdown
+                title="Sort By"
+                options={[
+                  "No sort",
+                  "Name ascending",
+                  "Name descending",
+                  "Premiered ascending",
+                  "Premiered descending",
+                ]}
+                selectedValue={selectedSort}
+                onSelect={onSelectedSort}
+                isMultiple={false}
+              />
               <Dropdown
                 title="Genres"
                 options={[

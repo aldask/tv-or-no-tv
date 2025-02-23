@@ -1,10 +1,10 @@
+import { useState } from "react";
+import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import { useTheme } from "./Contexts/ThemeContext";
 import TVShowsList from "./Components/TVShowsList";
 import Header from "./Components/Header";
 import ShowDetails from "./Components/ShowDetails";
-import { useTheme } from "./Contexts/ThemeContext";
-import { useState } from "react";
-import "./App.css";
 import Favorites from "./Components/Favorites";
 
 const App: React.FC = () => {
