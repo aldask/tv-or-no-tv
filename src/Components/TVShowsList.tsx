@@ -196,7 +196,7 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
             typeof number === "string" ? (
               <span
                 key={index}
-                className="px-4 py-2 rounded-lg font-medium text-xs sm:text-sm"
+                className="px-1 py-2 rounded-lg font-medium text-xs sm:text-sm"
               >
                 {number}
               </span>
