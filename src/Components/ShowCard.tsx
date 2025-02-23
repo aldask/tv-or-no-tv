@@ -53,7 +53,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
             <button>
               <FaHeart
                 onClick={handleFav}
-                className={`text-xl cursor-pointer transition ${
+                className={`text-xl cursor-pointer transition m-1 ${
                   isFavorite
                     ? "text-green-500"
                     : darkMode
