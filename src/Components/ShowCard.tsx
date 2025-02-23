@@ -37,6 +37,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
           src={show.image.medium}
           alt={show.name}
           className="w-32 sm:w-52 lg:w-64 h-auto object-cover rounded-lg"
+          loading="lazy"
         />
       )}
       <div className="ml-6 flex flex-col justify-between w-full">

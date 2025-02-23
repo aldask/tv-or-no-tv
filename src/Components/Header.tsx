@@ -74,11 +74,13 @@ const Header: React.FC<HeaderProps> = ({
       <div className="flex flex-col justify-between items-center py-4 px-4 container mx-auto">
         <div className="flex flex-row justify-between items-center py-4 px-8 container mx-auto">
           <div className="flex flex-row items-center space-x-4">
-            <img
-              className="h-16 md:h-24 w-auto"
-              alt="tv-or-no-tv_logo"
-              src={logoUrl}
-            />
+            <Link to="/" onClick={() => setIsMenuOpen(false)}>
+              <img
+                className="h-16 md:h-24 w-auto"
+                alt="tv-or-no-tv_logo"
+                src={logoUrl}
+              />
+            </Link>
             <div
               onClick={toggleTheme}
               className={`w-14 h-7 flex items-center rounded-full p-1 cursor-pointer transition-all ${

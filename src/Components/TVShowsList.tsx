@@ -117,14 +117,39 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
     if (page < 1 || page > totalPages) return;
 
     setCurrentPage(page);
+
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 0);
   };
 
+  // Pagination numbers logic
+  const pagesCountAround = 2;
   const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
+
+  pageNumbers.push(1);
+
+  // Pushing ellipsis BEFORE current page
+  if (currentPage > pagesCountAround) {
+    pageNumbers.push("...");
+  }
+
+  // Pushing ellipsis AROUND CURRENT page
+  for (
+    let i = Math.max(2, currentPage - pagesCountAround);
+    i <= Math.min(totalPages - 1, currentPage + pagesCountAround);
+    i++
+  ) {
     pageNumbers.push(i);
+  }
+
+  // Pushing ellipsis AFTER curent page
+  if (currentPage < totalPages - pagesCountAround) {
+    pageNumbers.push("...");
+  }
+
+  if (totalPages > 1) {
+    pageNumbers.push(totalPages);
   }
 
   return (
@@ -167,24 +192,33 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
       )}
       {filteredShows.length > itemsPerPage && (
         <div className="flex justify-center mt-10 flex-wrap gap-1 sm:gap-2">
-          {pageNumbers.map((number) => (
-            <button
-              key={number}
-              onClick={() => handlePageChange(number)}
-              disabled={currentPage === number}
-              className={`px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all ${
-                currentPage === number
-                  ? darkMode
-                    ? "bg-green-500 text-white cursor-not-allowed"
-                    : "bg-green-600 text-white cursor-not-allowed"
-                  : darkMode
-                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                  : "bg-gray-300 text-gray-700 hover:bg-gray-400"
-              }`}
-            >
-              {number}
-            </button>
-          ))}
+          {pageNumbers.map((number, index) =>
+            typeof number === "string" ? (
+              <span
+                key={index}
+                className="px-4 py-2 rounded-lg font-medium text-xs sm:text-sm"
+              >
+                {number}
+              </span>
+            ) : (
+              <button
+                key={index}
+                onClick={() => handlePageChange(number)}
+                disabled={currentPage === number}
+                className={`px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all ${
+                  currentPage === number
+                    ? darkMode
+                      ? "bg-green-500 text-white cursor-not-allowed"
+                      : "bg-green-600 text-white cursor-not-allowed"
+                    : darkMode
+                    ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                }`}
+              >
+                {number}
+              </button>
+            )
+          )}
         </div>
       )}
     </>
