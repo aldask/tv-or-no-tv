@@ -36,11 +36,9 @@ This is a TV Shows application built using **React**, **TypeScript**, and **Tail
 
 ## Easter Eggs (Shh, Don’t Tell Anyone!)
 
-**Remember those childhood games where you could unlock hidden surprises**? Think of a massive open-world game where typing in certain codes grants you some interesting and fun surprises!
+**Remember those childhood games where you could unlock hidden surprises**? Think of that massive open-world game where typing in certain codes grants you fun and interesting surprises!
 
-Just **type a specific code** on your keyboard and discover a few _simple surprises_! It's like adding cheat codes to your daily life-imagine if we could do this in real life too!
-
-_Want to find the secrets? Start typing…_
+Just like in that game, **type a specific code** on your keyboard and discover a few _simple surprises_! It's like adding cheat codes to your daily life—imagine if we could do this in real life too!
 
 Let’s just say, it’s a bit of a _secret adventure_. Who knows what fun you’ll uncover!
 
