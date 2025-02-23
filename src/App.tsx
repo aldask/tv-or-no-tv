@@ -6,6 +6,7 @@ import TVShowsList from "./Components/TVShowsList";
 import Header from "./Components/Header";
 import ShowDetails from "./Components/ShowDetails";
 import Favorites from "./Components/Favorites";
+import EasterEggs from "./Components/DontLookHere";
 
 const App: React.FC = () => {
   const { darkMode } = useTheme();
@@ -44,9 +45,16 @@ const App: React.FC = () => {
           <Route path="/shows/:id" element={<ShowDetails />} />
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
+        <EasterEggs />
       </main>
-      <footer className="flex justify-center text-center p-4 text-xs text-green-500">
-        &#169; by Aldas For Reiz Tech {new Date().getFullYear()}
+      <footer>
+        <p
+          className={`flex justify-center text-center p-4 text-xs font-semibold ${
+            darkMode ? "text-green-500" : "text-gray-800"
+          }`}
+        >
+          &#169; by Aldas For Reiz Tech {new Date().getFullYear()}
+        </p>
       </footer>
     </div>
   );

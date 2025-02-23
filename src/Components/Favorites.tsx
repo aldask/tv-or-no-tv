@@ -10,7 +10,7 @@ const Favorites: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-6">
+    <div className="flex flex-col justify-center mt-1 flex-wrap gap-1 sm:gap-2">
       <h2
         className={`text-2xl font-bold mb-6 text-center ${
           darkMode ? "text-white" : "text-gray-800"
@@ -35,7 +35,7 @@ const Favorites: React.FC = () => {
         </div>
       ) : (
         <p className="text-center text-lg text-gray-500">
-          No favorite shows yet.
+          You haven't selected any favorite shows yet
         </p>
       )}
     </div>
