@@ -71,7 +71,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
             {he.decode(show.summary.replace(/<[^>]+>/g, ""))}
           </p>
         </div>
-        <div className="mt-4 text-sm sm:text-base md:text-lg">
+        <div className="mt-4 text-sm sm:text-base">
           <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>
             ⭐ <strong>Rating:</strong>{" "}
             {show.rating.average ? show.rating.average + "/10" : "N/A"}
