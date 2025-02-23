@@ -95,7 +95,7 @@ const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="hidden lg:flex space-x-4">
-              <Link to="/" onClick={toggleMenu}>
+              <Link to="/" onClick={() => setIsMenuOpen(false)}>
                 <button
                   className={`${
                     darkMode
@@ -106,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({
                   Home
                 </button>
               </Link>
-              <Link to="/favorites" onClick={toggleMenu}>
+              <Link to="/favorites" onClick={() => setIsMenuOpen(false)}>
                 <button
                   className={`${
                     darkMode

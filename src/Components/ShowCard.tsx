@@ -3,21 +3,27 @@ import he from "he";
 import { FaHeart } from "react-icons/fa";
 import { useTheme } from "../Contexts/ThemeContext";
 import { TVShow } from "./TVShowsList";
+import { favContext } from "../Contexts/FavoriteContext";
 
 export interface ShowCardProps {
   show: TVShow;
   onClick: () => void;
-  saveShow: boolean;
-  handleFav: () => void;
 }
 
-const ShowCard: React.FC<ShowCardProps> = ({
-  show,
-  onClick,
-  saveShow,
-  handleFav,
-}) => {
+const ShowCard: React.FC<ShowCardProps> = ({ show, onClick }) => {
   const { darkMode } = useTheme();
+  const { favorites, addFavorite, removeFavorite } = favContext();
+
+  const isFavorite = favorites.some((fav) => fav.id === show.id);
+
+  const handleFav = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      removeFavorite(show);
+    } else {
+      addFavorite(show);
+    }
+  };
 
   return (
     <div
@@ -43,15 +49,11 @@ const ShowCard: React.FC<ShowCardProps> = ({
             >
               {show.name}
             </h3>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleFav();
-              }}
-            >
+            <button>
               <FaHeart
+                onClick={handleFav}
                 className={`text-xl cursor-pointer transition ${
-                  saveShow
+                  isFavorite
                     ? "text-green-500"
                     : darkMode
                     ? "text-gray-500 hover:text-green-400"

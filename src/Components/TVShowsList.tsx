@@ -36,17 +36,8 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [favorites, setFavorites] = useState<TVShow[]>([]);
   const itemsPerPage = 8;
   const navigate = useNavigate();
-
-  // Load favorites from localStorage on component mount
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites");
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-    }
-  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -67,25 +58,6 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, statusFilter, selectedGenres]);
-
-  // Handle adding/removing a show from favorites
-  const handleFav = (show: TVShow) => {
-    const storedFavorites = localStorage.getItem("favorites");
-    let updatedFavorites: TVShow[] = storedFavorites
-      ? JSON.parse(storedFavorites)
-      : [];
-
-    const isFavorite = updatedFavorites.some((fav) => fav.id === show.id);
-
-    if (isFavorite) {
-      updatedFavorites = updatedFavorites.filter((fav) => fav.id !== show.id);
-    } else {
-      updatedFavorites.push(show);
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    setFavorites(updatedFavorites);
-  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -165,15 +137,11 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
           }`}
         >
           {currentPageShows.map((show) => {
-            const saveShow = favorites.some((fav) => fav.id === show.id); // Checking if show is a favorite
-
             return (
               <ShowCard
                 key={show.id}
                 show={show}
                 onClick={() => navigate(`/shows/${show.id}`)}
-                saveShow={saveShow} // passs favorite status
-                handleFav={() => handleFav(show)} // pass favcard to ShowCard
               />
             );
           })}

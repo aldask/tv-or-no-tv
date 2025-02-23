@@ -5,6 +5,7 @@ import axios from "axios";
 import { FaHeart } from "react-icons/fa";
 import { TVShow } from "./TVShowsList";
 import { useTheme } from "../Contexts/ThemeContext";
+import { favContext } from "../Contexts/FavoriteContext";
 
 interface ShowDetails extends TVShow {
   averageRuntime: number;
@@ -12,27 +13,17 @@ interface ShowDetails extends TVShow {
   ended: string;
   language: string;
   officialSite: string;
-  saveShow: boolean;
-  handleFav: () => void;
 }
 
 const ShowDetails: React.FC = () => {
   const { id } = useParams();
   const { darkMode } = useTheme();
+  const { favorites, addFavorite, removeFavorite } = favContext();
   const [show, setShow] = useState<ShowDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [saveShow, setSaveShow] = useState(false);
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites");
-    const parsedFavorites: TVShow[] = storedFavorites
-      ? JSON.parse(storedFavorites)
-      : [];
-
-    const isFavorite = parsedFavorites.some((fav) => fav.id === Number(id));
-    setSaveShow(isFavorite);
-
     axios
       .get(`https://api.tvmaze.com/shows/${id}`)
       .then((response) => {
@@ -45,25 +36,15 @@ const ShowDetails: React.FC = () => {
       });
   }, [id]);
 
-  // Handle adding/removing a show from favorites
-  const handleFav = () => {
-    const storedFavorites = localStorage.getItem("favorites");
-    let updatedFavorites: TVShow[] = storedFavorites
-      ? JSON.parse(storedFavorites)
-      : [];
+  const isFavorite = favorites.some((fav: TVShow) => fav.id === Number(id));
 
-    const isFavorite = updatedFavorites.some((fav) => fav.id === Number(id));
-
+  const handleFav = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isFavorite) {
-      updatedFavorites = updatedFavorites.filter(
-        (fav) => fav.id !== Number(id)
-      );
+      removeFavorite(show!);
     } else {
-      updatedFavorites.push(show!);
+      addFavorite(show!);
     }
-
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    setSaveShow(!saveShow);
   };
 
   if (loading)
@@ -98,10 +79,11 @@ const ShowDetails: React.FC = () => {
             >
               {show.name}
             </h1>
-            <button onClick={handleFav}>
+            <button>
               <FaHeart
+                onClick={handleFav}
                 className={`text-xl cursor-pointer transition ${
-                  saveShow
+                  isFavorite
                     ? "text-green-500"
                     : darkMode
                     ? "text-gray-500 hover:text-green-400"

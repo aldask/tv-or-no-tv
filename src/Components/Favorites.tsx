@@ -1,40 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ShowCard from "./ShowCard";
-import { useTheme } from "../Contexts/ThemeContext";
-import { TVShow } from "./TVShowsList";
 import { useNavigate } from "react-router-dom";
+import { favContext } from "../Contexts/FavoriteContext";
+import { useTheme } from "../Contexts/ThemeContext";
 
 const Favorites: React.FC = () => {
   const { darkMode } = useTheme();
-  const [favorites, setFavorites] = useState<TVShow[]>([]);
+
+  const { favorites } = favContext();
   const navigate = useNavigate();
-
-  // Load favorites from localStorage on component mount
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites");
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-    }
-  }, []);
-
-  // Handle adding/removing a show from favorites
-  const handleFav = (show: TVShow) => {
-    const storedFavorites = localStorage.getItem("favorites");
-    let updatedFavorites: TVShow[] = storedFavorites
-      ? JSON.parse(storedFavorites)
-      : [];
-
-    const isFavorite = updatedFavorites.some((fav) => fav.id === show.id);
-
-    if (isFavorite) {
-      updatedFavorites = updatedFavorites.filter((fav) => fav.id !== show.id);
-    } else {
-      updatedFavorites.push(show);
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    setFavorites(updatedFavorites);
-  };
 
   return (
     <div className="p-6">
@@ -57,8 +31,6 @@ const Favorites: React.FC = () => {
               key={show.id}
               show={show}
               onClick={() => navigate(`/shows/${show.id}`)}
-              saveShow={true}
-              handleFav={() => handleFav(show)}
             />
           ))}
         </div>
