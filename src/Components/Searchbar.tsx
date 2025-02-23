@@ -15,7 +15,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="relative w-full lg:w-54">
+    <div className="relative w-full lg:w-44">
       <input
         type="text"
         placeholder="Look for shows"
@@ -23,7 +23,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ onSearch }) => {
         onChange={handleSearch}
         className={`${
           darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"
-        } px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full transition-all`}
+        } px-3 py-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 w-full text-sm transition-all`}
       />
     </div>
   );
