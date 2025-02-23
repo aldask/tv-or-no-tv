@@ -90,8 +90,8 @@ const Header: React.FC<HeaderProps> = ({
               <div
                 className={`w-5 h-5 sm:w-6 sm:h-6 bg-white rounded-full shadow-md transform transition-all ${
                   darkMode
-                    ? "translate-x-[20px] sm:translate-x-[26px]"
-                    : "translate-x-[0px] sm:translate-x-[-2px]"
+                    ? "translate-x-[22px] sm:translate-x-[26px]"
+                    : "translate-x-[-2px] sm:translate-x-[-2px]"
                 } flex items-center justify-center`}
               >
                 {darkMode ? (
