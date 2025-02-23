@@ -68,6 +68,7 @@ const ShowDetails: React.FC = () => {
             src={show.image.original}
             alt={show.name}
             className="w-full h-auto rounded-lg shadow-lg"
+            loading="lazy"
           />
         </div>
         <div className="flex flex-col w-full lg:w-2/3 justify-between">

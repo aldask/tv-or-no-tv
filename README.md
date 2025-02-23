@@ -34,6 +34,18 @@ This is a TV Shows application built using **React**, **TypeScript**, and **Tail
 - Supports both **dark** and **light themes**.
 - Deployed and accessible online.
 
+## Easter Eggs (Shh, Don’t Tell Anyone!)
+
+**Remember those childhood games where you could unlock hidden surprises**? Think of a massive open-world game where typing in certain codes grants you some interesting and fun surprises!
+
+Just **type a specific code** on your keyboard and discover a few _simple surprises_! It's like adding cheat codes to your daily life-imagine if we could do this in real life too!
+
+_Want to find the secrets? Start typing…_
+
+Let’s just say, it’s a bit of a _secret adventure_. Who knows what fun you’ll uncover!
+
+And just for fun, **don’t peek at the “DontLookHere” component** - it’s all about the journey, not the shortcut!
+
 ## Installation
 
 To run this project locally, follow these steps:
@@ -64,7 +76,6 @@ To run this project locally, follow these steps:
 - **TypeScript** for static typing.
 - **Vite** for fast development and bundling.
 - **Tailwind CSS** for utility-first CSS styling.
-- **CSS Modules** (or styled-components) for scoped styles.
 - **Local Storage** for managing favorites.
 - **React Router** for navigation.
 

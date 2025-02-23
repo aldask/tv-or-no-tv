@@ -81,7 +81,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 darkMode
                   ? "bg-green-600 text-white hover:bg-green-700"
                   : "bg-green-500 text-white hover:bg-green-600"
-              } px-5 py-2 text-base rounded-md font-medium transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none shadow-md w-full sm:w-auto max-w-xs border-2 border-transparent hover:border-green-400`}
+              } px-9 py-2 text-base rounded-md font-medium transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none shadow-md w-full sm:w-auto max-w-xs border-2 border-transparent hover:border-green-400`}
             >
               Home
             </button>
