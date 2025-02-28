@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../Contexts/ThemeContext";
 import ShowCard from "./ShowCard";
 
@@ -38,7 +38,6 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     setLoading(true);
@@ -57,15 +56,8 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const pageFromUrl = Number(params.get("page"));
-
-    if (pageFromUrl) {
-      setCurrentPage(pageFromUrl);
-    } else {
-      setCurrentPage(1);
-    }
-  }, [location.search, searchQuery, statusFilter, selectedGenres]);
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, selectedGenres]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -125,7 +117,6 @@ const TVShowsList: React.FC<TVShowsListProps> = ({
     if (page < 1 || page > totalPages) return;
 
     setCurrentPage(page);
-    navigate(`?page=${page}`, { replace: true });
 
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
