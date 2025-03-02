@@ -43,7 +43,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       onSelect(updatedSelectedValues);
       navigate("?page=1");
-      //need to set page back to 1 after
     } else {
       onSelect(value);
       navigate("?page=1");
