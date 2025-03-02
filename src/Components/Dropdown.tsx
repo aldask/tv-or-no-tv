@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaChevronUp } from "react-icons/fa";
 import { useTheme } from "../Contexts/ThemeContext";
 
@@ -20,6 +21,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const { darkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const handleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -40,8 +42,11 @@ const Dropdown: React.FC<DropdownProps> = ({
       }
 
       onSelect(updatedSelectedValues);
+      navigate("?page=1");
+      //need to set page back to 1 after
     } else {
       onSelect(value);
+      navigate("?page=1");
     }
   };
 
