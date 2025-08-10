@@ -53,7 +53,7 @@ const App: React.FC = () => {
             darkMode ? "text-green-500" : "text-gray-800"
           }`}
         >
-          &#169; by Aldas For Reiz Tech {new Date().getFullYear()}
+          &#169; by Aldas {new Date().getFullYear()}
         </p>
       </footer>
     </div>
